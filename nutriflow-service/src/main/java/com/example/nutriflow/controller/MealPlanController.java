@@ -37,7 +37,8 @@ import java.util.Optional;
  * - Retrieve existing meal plans
  * - Update and delete meal plans
  *
- * All API calls are logged with timestamp, client identifier, endpoint, and status.
+ * All API calls are logged with timestamp, client identifier,
+ * endpoint, and status.
  */
 @RestController
 @RequestMapping("/api/meal-plans")
@@ -59,6 +60,7 @@ public class MealPlanController {
      * Generate a meal plan based on user preferences and constraints.
      * Supports both daily and weekly meal plan generation.
      *
+     *
      * POST /api/meal-plans/generate
      *
      * Request body example:
@@ -78,7 +80,8 @@ public class MealPlanController {
      * }
      *
      * @param request the meal plan request DTO
-     * @return ResponseEntity with the generated meal plan or error message
+     * @return ResponseEntity with the generated meal plan or
+     *         error message
      */
     @PostMapping("/generate")
     public ResponseEntity<MealPlanResponseDto> generateMealPlan(
@@ -95,7 +98,8 @@ public class MealPlanController {
                 request.getMealsPerDay(), request.getNumberOfDays());
 
         try {
-            final MealPlanResponseDto response = mealPlanService.generateMealPlan(request);
+            final MealPlanResponseDto response =
+                    mealPlanService.generateMealPlan(request);
 
             final HttpStatus status = response.getSuccess()
                     ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -103,7 +107,8 @@ public class MealPlanController {
             LOGGER.info("[API_RESPONSE] timestamp={}, client={}, "
                     + "endpoint=POST /api/meal-plans/generate, "
                     + "status={}, success={}",
-                    LocalDateTime.now(), clientId, status, response.getSuccess());
+                    LocalDateTime.now(), clientId, status,
+                    response.getSuccess());
 
             return ResponseEntity.status(status).body(response);
 
@@ -113,17 +118,21 @@ public class MealPlanController {
                     + "error={}",
                     LocalDateTime.now(), clientId, e.getMessage(), e);
 
-            final MealPlanResponseDto errorResponse = new MealPlanResponseDto();
+            final MealPlanResponseDto errorResponse =
+                    new MealPlanResponseDto();
             errorResponse.setSuccess(false);
-            errorResponse.setMessage("Error generating meal plan: " + e.getMessage());
+            errorResponse.setMessage(
+                    "Error generating meal plan: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 
     /**
-     * Request an alternative meal when user dislikes a suggested recipe.
-     * Replaces the specified meal while maintaining nutritional balance.
+     * Request an alternative meal when user dislikes a recipe.
+     * Replaces the meal while maintaining nutritional balance.
      *
      * POST /api/meal-plans/alternative
      *
@@ -165,7 +174,8 @@ public class MealPlanController {
             LOGGER.info("[API_RESPONSE] timestamp={}, "
                     + "endpoint=POST /api/meal-plans/alternative, "
                     + "status={}, success={}",
-                    LocalDateTime.now(), status, response.getSuccess());
+                    LocalDateTime.now(), status,
+                    response.getSuccess());
 
             return ResponseEntity.status(status).body(response);
 
@@ -175,11 +185,15 @@ public class MealPlanController {
                     + "error={}",
                     LocalDateTime.now(), e.getMessage(), e);
 
-            final MealPlanResponseDto errorResponse = new MealPlanResponseDto();
+            final MealPlanResponseDto errorResponse =
+                    new MealPlanResponseDto();
             errorResponse.setSuccess(false);
-            errorResponse.setMessage("Error requesting alternative: " + e.getMessage());
+            errorResponse.setMessage(
+                    "Error requesting alternative: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 
@@ -187,22 +201,28 @@ public class MealPlanController {
      * Retrieve meal plans for a specific user.
      * Optionally filter by date range and status.
      *
-     * GET /api/meal-plans/user/{userId}?startDate=2025-11-28&endDate=2025-12-04&status=active
+     *
+     * GET /api/meal-plans/user/{userId}?startDate=...
+     *     &endDate=...&status=active
      *
      * @param userId    the user ID
      * @param startDate optional start date filter
      * @param endDate   optional end date filter
-     * @param status    optional status filter (e.g., "active", "completed")
+     * @param status    optional status filter
+     *                  (e.g., "active", "completed")
      * @return ResponseEntity with list of meal plans
      */
     @GetMapping("/user/{userId}")
     public ResponseEntity<Map<String, Object>> getMealPlansByUser(
             @PathVariable final Integer userId,
             @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            final LocalDate startDate,
             @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate endDate,
-            @RequestParam(required = false) final String status) {
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            final LocalDate endDate,
+            @RequestParam(required = false)
+            final String status) {
 
         final LocalDateTime requestTime = LocalDateTime.now();
 
@@ -216,9 +236,11 @@ public class MealPlanController {
 
             if (startDate != null && endDate != null) {
                 mealPlans = dailyMealPlanRepository
-                        .findByUserIdAndPlanDateBetween(userId, startDate, endDate);
+                        .findByUserIdAndPlanDateBetween(
+                                userId, startDate, endDate);
             } else if (status != null) {
-                mealPlans = dailyMealPlanRepository.findByUserIdAndStatus(userId, status);
+                mealPlans = dailyMealPlanRepository
+                        .findByUserIdAndStatus(userId, status);
             } else {
                 mealPlans = dailyMealPlanRepository.findByUserId(userId);
             }
@@ -231,7 +253,8 @@ public class MealPlanController {
             LOGGER.info("[API_RESPONSE] timestamp={}, "
                     + "endpoint=GET /api/meal-plans/user/{}, "
                     + "status=200, count={}",
-                    LocalDateTime.now(), userId, mealPlans.size());
+                    LocalDateTime.now(), userId,
+                    mealPlans.size());
 
             return ResponseEntity.ok(response);
 
@@ -241,11 +264,15 @@ public class MealPlanController {
                     + "error={}",
                     LocalDateTime.now(), userId, e.getMessage(), e);
 
-            final Map<String, Object> errorResponse = new HashMap<>();
+            final Map<String, Object> errorResponse =
+                    new HashMap<>();
             errorResponse.put("success", false);
-            errorResponse.put("message", "Error retrieving meal plans: " + e.getMessage());
+            errorResponse.put("message",
+                    "Error retrieving meal plans: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 
@@ -268,7 +295,8 @@ public class MealPlanController {
                 requestTime, planId);
 
         try {
-            final Optional<DailyMealPlan> planOpt = dailyMealPlanRepository.findById(planId);
+            final Optional<DailyMealPlan> planOpt =
+                    dailyMealPlanRepository.findById(planId);
 
             if (planOpt.isEmpty()) {
                 LOGGER.info("[API_RESPONSE] timestamp={}, "
@@ -276,11 +304,14 @@ public class MealPlanController {
                         + "status=404",
                         LocalDateTime.now(), planId);
 
-                final Map<String, Object> errorResponse = new HashMap<>();
+                final Map<String, Object> errorResponse =
+                        new HashMap<>();
                 errorResponse.put("success", false);
-                errorResponse.put("message", "Meal plan not found");
+                errorResponse.put("message",
+                        "Meal plan not found");
 
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(errorResponse);
             }
 
             final Map<String, Object> response = new HashMap<>();
@@ -288,21 +319,28 @@ public class MealPlanController {
             response.put("mealPlan", planOpt.get());
 
             LOGGER.info("[API_RESPONSE] timestamp={}, "
-                    + "endpoint=GET /api/meal-plans/{}, status=200",
+                    + "endpoint=GET /api/meal-plans/{}, "
+                    + "status=200",
                     LocalDateTime.now(), planId);
 
             return ResponseEntity.ok(response);
 
         } catch (final Exception e) {
             LOGGER.error("[API_ERROR] timestamp={}, "
-                    + "endpoint=GET /api/meal-plans/{}, error={}",
-                    LocalDateTime.now(), planId, e.getMessage(), e);
+                    + "endpoint=GET /api/meal-plans/{}, "
+                    + "error={}",
+                    LocalDateTime.now(), planId,
+                    e.getMessage(), e);
 
-            final Map<String, Object> errorResponse = new HashMap<>();
+            final Map<String, Object> errorResponse =
+                    new HashMap<>();
             errorResponse.put("success", false);
-            errorResponse.put("message", "Error retrieving meal plan: " + e.getMessage());
+            errorResponse.put("message",
+                    "Error retrieving meal plan: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 
@@ -316,6 +354,7 @@ public class MealPlanController {
      * @param planId  the meal plan ID
      * @param request map containing the new status
      * @return ResponseEntity with success message
+     *
      */
     @PutMapping("/{planId}/status")
     public ResponseEntity<Map<String, Object>> updateMealPlanStatus(
@@ -331,14 +370,18 @@ public class MealPlanController {
                 requestTime, planId, newStatus);
 
         try {
-            final Optional<DailyMealPlan> planOpt = dailyMealPlanRepository.findById(planId);
+            final Optional<DailyMealPlan> planOpt =
+                    dailyMealPlanRepository.findById(planId);
 
             if (planOpt.isEmpty()) {
-                final Map<String, Object> errorResponse = new HashMap<>();
+                final Map<String, Object> errorResponse =
+                        new HashMap<>();
                 errorResponse.put("success", false);
-                errorResponse.put("message", "Meal plan not found");
+                errorResponse.put("message",
+                        "Meal plan not found");
 
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(errorResponse);
             }
 
             final DailyMealPlan plan = planOpt.get();
@@ -347,7 +390,8 @@ public class MealPlanController {
 
             final Map<String, Object> response = new HashMap<>();
             response.put("success", true);
-            response.put("message", "Meal plan status updated successfully");
+            response.put("message",
+                    "Meal plan status updated successfully");
             response.put("mealPlan", plan);
 
             LOGGER.info("[API_RESPONSE] timestamp={}, "
@@ -363,11 +407,15 @@ public class MealPlanController {
                     + "error={}",
                     LocalDateTime.now(), planId, e.getMessage(), e);
 
-            final Map<String, Object> errorResponse = new HashMap<>();
+            final Map<String, Object> errorResponse =
+                    new HashMap<>();
             errorResponse.put("success", false);
-            errorResponse.put("message", "Error updating meal plan: " + e.getMessage());
+            errorResponse.put("message",
+                    "Error updating meal plan: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 
@@ -390,14 +438,18 @@ public class MealPlanController {
                 requestTime, planId);
 
         try {
-            final Optional<DailyMealPlan> planOpt = dailyMealPlanRepository.findById(planId);
+            final Optional<DailyMealPlan> planOpt =
+                    dailyMealPlanRepository.findById(planId);
 
             if (planOpt.isEmpty()) {
-                final Map<String, Object> errorResponse = new HashMap<>();
+                final Map<String, Object> errorResponse =
+                        new HashMap<>();
                 errorResponse.put("success", false);
-                errorResponse.put("message", "Meal plan not found");
+                errorResponse.put("message",
+                        "Meal plan not found");
 
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(errorResponse);
             }
 
             dailyMealPlanRepository.deleteById(planId);
@@ -415,14 +467,20 @@ public class MealPlanController {
 
         } catch (final Exception e) {
             LOGGER.error("[API_ERROR] timestamp={}, "
-                    + "endpoint=DELETE /api/meal-plans/{}, error={}",
-                    LocalDateTime.now(), planId, e.getMessage(), e);
+                    + "endpoint=DELETE /api/meal-plans/{}, "
+                    + "error={}",
+                    LocalDateTime.now(), planId,
+                    e.getMessage(), e);
 
-            final Map<String, Object> errorResponse = new HashMap<>();
+            final Map<String, Object> errorResponse =
+                    new HashMap<>();
             errorResponse.put("success", false);
-            errorResponse.put("message", "Error deleting meal plan: " + e.getMessage());
+            errorResponse.put("message",
+                    "Error deleting meal plan: " + e.getMessage());
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(
+                    HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 }

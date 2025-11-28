@@ -80,13 +80,15 @@ public class MealPlanService {
     /** Default calorie target when not specified. */
     private static final double DEFAULT_CALORIES = 2000.0;
 
-    /** Default protein target in grams when not specified. */
+    /** Default protein target in grams when not specified.
+     */
     private static final double DEFAULT_PROTEIN = 150.0;
 
-    /** Default carbohydrate target in grams when not specified. */
+    /** Default carbohydrate target in grams. */
     private static final double DEFAULT_CARBS = 250.0;
 
-    /** Default fat target in grams when not specified. */
+    /** Default fat target in grams when not specified.
+     */
     private static final double DEFAULT_FAT = 65.0;
 
     /** Weight for calorie difference in scoring (60%). */
@@ -104,13 +106,17 @@ public class MealPlanService {
 
     /**
      * Generate a meal plan based on the request parameters.
-     * Supports both daily and weekly meal plan generation.
+     * Supports daily and weekly meal plan generation.
      *
-     * @param request the meal plan request containing user preferences and constraints
-     * @return the generated meal plan response with recipes and nutritional info
+     *
+     * @param request the meal plan request containing user
+     *                preferences and constraints
+     * @return the generated meal plan response with recipes
+     *         and nutritional info
      */
     @Transactional
-    public MealPlanResponseDto generateMealPlan(final MealPlanRequestDto request) {
+    public MealPlanResponseDto generateMealPlan(
+            final MealPlanRequestDto request) {
         LOGGER.info("Generating meal plan for user {} with {} days",
                 request.getUserId(), request.getNumberOfDays());
 
@@ -120,18 +126,21 @@ public class MealPlanService {
         }
 
         // Fetch user and target data
-        final Optional<User> userOpt = userRepository.findById(request.getUserId());
+        final Optional<User> userOpt =
+                userRepository.findById(request.getUserId());
         if (userOpt.isEmpty()) {
             return createErrorResponse("User not found");
         }
 
         final User user = userOpt.get();
-        final Optional<UserTarget> targetOpt = userTargetRepository
-                .findLatestByUserId(request.getUserId());
+        final Optional<UserTarget> targetOpt =
+                userTargetRepository
+                        .findLatestByUserId(request.getUserId());
 
         // Set defaults
         final int mealsPerDay = request.getMealsPerDay() != null
-                ? request.getMealsPerDay() : DEFAULT_MEALS_PER_DAY;
+                ? request.getMealsPerDay()
+                : DEFAULT_MEALS_PER_DAY;
         final int numberOfDays = request.getNumberOfDays() != null
                 ? request.getNumberOfDays() : 1;
         final LocalDate startDate = request.getStartDate() != null
@@ -141,11 +150,13 @@ public class MealPlanService {
         final MacroTargets targets = determineMacroTargets(request, targetOpt);
 
         // Generate daily meal plans
-        final List<DailyMealPlanDetailDto> dailyPlans = new ArrayList<>();
+        final List<DailyMealPlanDetailDto> dailyPlans =
+                new ArrayList<>();
         for (int day = 0; day < numberOfDays; day++) {
             final LocalDate currentDate = startDate.plusDays(day);
-            final DailyMealPlanDetailDto dailyPlan = generateDailyMealPlan(
-                    user, targets, mealsPerDay, currentDate, request);
+            final DailyMealPlanDetailDto dailyPlan =
+                    generateDailyMealPlan(user, targets,
+                            mealsPerDay, currentDate, request);
             dailyPlans.add(dailyPlan);
         }
 
@@ -205,7 +216,8 @@ public class MealPlanService {
             final LocalDate date,
             final MealPlanRequestDto request) {
 
-        final List<DailyMealPlanDetailDto.MealDetailDto> meals = new ArrayList<>();
+        final List<DailyMealPlanDetailDto.MealDetailDto> meals =
+                new ArrayList<>();
 
         // Calculate target calories per meal
         final double caloriesPerMeal = targets.getCalories() / mealsPerDay;
@@ -270,7 +282,9 @@ public class MealPlanService {
                 .mapToDouble(m -> m.getRecipe().getProtein().doubleValue())
                 .sum();
         final double totalCarbs = meals.stream()
-                .mapToDouble(m -> m.getRecipe().getCarbohydrates().doubleValue())
+                .mapToDouble(m ->
+                        m.getRecipe().getCarbohydrates()
+                                .doubleValue())
                 .sum();
         final double totalFat = meals.stream()
                 .mapToDouble(m -> m.getRecipe().getFat().doubleValue())
@@ -302,13 +316,15 @@ public class MealPlanService {
     }
 
     /**
-     * Get eligible recipes based on user allergies, dislikes, and request filters.
+     * Get eligible recipes based on user allergies, dislikes,
+     * and request filters.
      *
      * @param user    the user
      * @param request the meal plan request
      * @return list of eligible recipes
      */
-    private List<Recipe> getEligibleRecipes(final User user, final MealPlanRequestDto request) {
+    private List<Recipe> getEligibleRecipes(final User user,
+            final MealPlanRequestDto request) {
         List<Recipe> recipes = recipeRepository.findAll();
 
         // Filter by max prep time
@@ -320,25 +336,31 @@ public class MealPlanService {
         }
 
         // Filter by tags
-        if (request.getTags() != null && !request.getTags().isEmpty()) {
+        if (request.getTags() != null
+                && !request.getTags().isEmpty()) {
             recipes = recipes.stream()
                     .filter(r -> r.getTags() != null
                             && Arrays.stream(r.getTags())
-                            .anyMatch(tag -> request.getTags().contains(tag)))
+                            .anyMatch(tag ->
+                                    request.getTags().contains(tag)))
                     .collect(Collectors.toList());
         }
 
         // Filter by cuisines
-        if (request.getPreferredCuisines() != null && !request.getPreferredCuisines().isEmpty()) {
+        if (request.getPreferredCuisines() != null
+                && !request.getPreferredCuisines().isEmpty()) {
             recipes = recipes.stream()
                     .filter(r -> r.getCuisines() != null
                             && Arrays.stream(r.getCuisines())
-                            .anyMatch(cuisine -> request.getPreferredCuisines().contains(cuisine)))
+                            .anyMatch(cuisine ->
+                                    request.getPreferredCuisines()
+                                            .contains(cuisine)))
                     .collect(Collectors.toList());
         }
 
-        // NOTE: Allergen filtering requires SubstitutionService
-        // integration. This is planned for future enhancement.
+        // NOTE: Allergen filtering requires
+        // SubstitutionService integration.
+        // This is planned for future enhancement.
 
         return recipes;
     }
@@ -368,19 +390,24 @@ public class MealPlanService {
             }
 
             // Skip if exceeds prep time
-            if (maxPrepTime != null && recipe.getCookTime() != null
+            if (maxPrepTime != null
+                    && recipe.getCookTime() != null
                     && recipe.getCookTime() > maxPrepTime) {
                 continue;
             }
 
             // Calculate score based on how close to target
-            final double calories = recipe.getCalories().doubleValue();
-            final double protein = recipe.getProtein().doubleValue();
+            final double calories =
+                    recipe.getCalories().doubleValue();
+            final double protein =
+                    recipe.getProtein().doubleValue();
 
-            final double calorieDiff = Math.abs(
-                    calories - targetCalories) / targetCalories;
-            final double proteinDiff = Math.abs(
-                    protein - targetProtein) / targetProtein;
+            final double calorieDiff =
+                    Math.abs(calories - targetCalories)
+                            / targetCalories;
+            final double proteinDiff =
+                    Math.abs(protein - targetProtein)
+                            / targetProtein;
 
             // Weighted score (calories matter more)
             final double score = (calorieDiff * CALORIE_WEIGHT)
@@ -396,7 +423,8 @@ public class MealPlanService {
     }
 
     /**
-     * Request an alternative meal when user dislikes a suggested recipe.
+     * Request an alternative meal when user dislikes a recipe.
+     *
      *
      * @param request the alternative request containing meal to replace
      * @return the updated meal plan response
@@ -405,26 +433,31 @@ public class MealPlanService {
     public MealPlanResponseDto requestAlternativeMeal(
             final MealPlanAlternativeRequestDto request) {
 
-        LOGGER.info("Requesting alternative for meal {} in plan {}",
-                request.getMealIdToReplace(), request.getPlanId());
+        LOGGER.info("Requesting alternative for meal {} "
+                        + "in plan {}",
+                request.getMealIdToReplace(),
+                request.getPlanId());
 
-        final Optional<DailyMealPlan> planOpt = dailyMealPlanRepository
-                .findById(request.getPlanId());
+        final Optional<DailyMealPlan> planOpt =
+                dailyMealPlanRepository
+                        .findById(request.getPlanId());
 
         if (planOpt.isEmpty()) {
             return createErrorResponse("Meal plan not found");
         }
 
         final DailyMealPlan plan = planOpt.get();
-        final Optional<Meal> mealOpt = mealRepository.findById(request.getMealIdToReplace());
+        final Optional<Meal> mealOpt = mealRepository
+                .findById(request.getMealIdToReplace());
 
         if (mealOpt.isEmpty()) {
             return createErrorResponse("Meal not found");
         }
 
         final Meal originalMeal = mealOpt.get();
-        final Optional<Recipe> originalRecipeOpt = recipeRepository
-                .findById(originalMeal.getRecipeId());
+        final Optional<Recipe> originalRecipeOpt =
+                recipeRepository
+                        .findById(originalMeal.getRecipeId());
 
         if (originalRecipeOpt.isEmpty()) {
             return createErrorResponse("Original recipe not found");
@@ -443,8 +476,10 @@ public class MealPlanService {
         }
 
         // Find alternative
-        final double targetCalories = originalRecipe.getCalories().doubleValue();
-        final double targetProtein = originalRecipe.getProtein().doubleValue();
+        final double targetCalories =
+                originalRecipe.getCalories().doubleValue();
+        final double targetProtein =
+                originalRecipe.getProtein().doubleValue();
 
         final Recipe alternative = selectRecipeForMeal(allRecipes,
                 targetCalories, targetProtein, excludeIds, null);
@@ -487,15 +522,20 @@ public class MealPlanService {
         }
 
         final double totalCalories = recipes.stream()
-                .mapToDouble(r -> r.getCalories().doubleValue()).sum();
+                .mapToDouble(r ->
+                        r.getCalories().doubleValue()).sum();
         final double totalProtein = recipes.stream()
-                .mapToDouble(r -> r.getProtein().doubleValue()).sum();
+                .mapToDouble(r ->
+                        r.getProtein().doubleValue()).sum();
         final double totalCarbs = recipes.stream()
-                .mapToDouble(r -> r.getCarbohydrates().doubleValue()).sum();
+                .mapToDouble(r ->
+                        r.getCarbohydrates().doubleValue()).sum();
         final double totalFat = recipes.stream()
-                .mapToDouble(r -> r.getFat().doubleValue()).sum();
+                .mapToDouble(r ->
+                        r.getFat().doubleValue()).sum();
         final double totalFiber = recipes.stream()
-                .mapToDouble(r -> r.getFiber().doubleValue()).sum();
+                .mapToDouble(r ->
+                        r.getFiber().doubleValue()).sum();
 
         plan.setTotalCalories(totalCalories);
         plan.setTotalProtein(totalProtein);
@@ -545,6 +585,7 @@ public class MealPlanService {
 
     /**
      * Determine macro targets from request or user targets.
+     *
      *
      * @param request   the meal plan request
      * @param targetOpt optional user target
