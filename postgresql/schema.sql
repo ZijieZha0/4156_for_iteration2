@@ -182,3 +182,90 @@ CREATE TABLE IF NOT EXISTS nutriflow.substitution_rules (
     substitute TEXT NOT NULL,
     note TEXT
 );
+
+--
+-- create table 'meals' (individual meals in a meal plan)
+--
+CREATE TABLE IF NOT EXISTS meals (
+    meal_id SERIAL PRIMARY KEY,
+    recipe_id INTEGER NOT NULL,
+    meal_type VARCHAR(50) NOT NULL,
+    scheduled_time TIME,
+    servings INTEGER DEFAULT 1,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT meals_recipe_fk FOREIGN KEY (recipe_id)
+        REFERENCES nutriflow.recipes(recipe_id) ON DELETE CASCADE,
+    CONSTRAINT check_meal_type CHECK (meal_type IN ('breakfast', 'lunch', 'dinner', 'snack')),
+    CONSTRAINT check_servings CHECK (servings > 0)
+);
+
+--
+-- create table 'daily_meal_plans' (daily meal plan for a user)
+--
+CREATE TABLE IF NOT EXISTS daily_meal_plans (
+    plan_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    plan_date DATE NOT NULL,
+    meal_ids INTEGER[],
+    total_calories DOUBLE PRECISION,
+    total_protein DOUBLE PRECISION,
+    total_carbs DOUBLE PRECISION,
+    total_fat DOUBLE PRECISION,
+    total_fiber DOUBLE PRECISION,
+    max_prep_time INTEGER,
+    status VARCHAR(50) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT daily_meal_plans_user_fk FOREIGN KEY (user_id)
+        REFERENCES nutriflow.users(user_id) ON DELETE CASCADE,
+    CONSTRAINT check_total_calories CHECK (total_calories IS NULL OR total_calories >= 0),
+    CONSTRAINT check_total_protein CHECK (total_protein IS NULL OR total_protein >= 0),
+    CONSTRAINT check_total_carbs CHECK (total_carbs IS NULL OR total_carbs >= 0),
+    CONSTRAINT check_total_fat CHECK (total_fat IS NULL OR total_fat >= 0),
+    CONSTRAINT check_total_fiber CHECK (total_fiber IS NULL OR total_fiber >= 0),
+    CONSTRAINT check_status CHECK (status IN ('draft', 'active', 'completed', 'cancelled')),
+    CONSTRAINT unique_user_date UNIQUE (user_id, plan_date)
+);
+
+--
+-- create table 'weekly_meal_plans' (weekly meal plan for a user)
+--
+CREATE TABLE IF NOT EXISTS weekly_meal_plans (
+    weekly_plan_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    daily_plan_ids INTEGER[],
+    avg_daily_calories DOUBLE PRECISION,
+    avg_daily_protein DOUBLE PRECISION,
+    avg_daily_carbs DOUBLE PRECISION,
+    avg_daily_fat DOUBLE PRECISION,
+    status VARCHAR(50) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT weekly_meal_plans_user_fk FOREIGN KEY (user_id)
+        REFERENCES nutriflow.users(user_id) ON DELETE CASCADE,
+    CONSTRAINT check_dates CHECK (end_date >= start_date),
+    CONSTRAINT check_avg_calories CHECK (avg_daily_calories IS NULL OR avg_daily_calories >= 0),
+    CONSTRAINT check_avg_protein CHECK (avg_daily_protein IS NULL OR avg_daily_protein >= 0),
+    CONSTRAINT check_avg_carbs CHECK (avg_daily_carbs IS NULL OR avg_daily_carbs >= 0),
+    CONSTRAINT check_avg_fat CHECK (avg_daily_fat IS NULL OR avg_daily_fat >= 0),
+    CONSTRAINT check_weekly_status CHECK (status IN ('draft', 'active', 'completed', 'cancelled'))
+);
+
+--
+-- create index on daily_meal_plans for faster lookups
+--
+CREATE INDEX IF NOT EXISTS idx_daily_meal_plans_user_date 
+    ON daily_meal_plans(user_id, plan_date);
+
+CREATE INDEX IF NOT EXISTS idx_daily_meal_plans_status 
+    ON daily_meal_plans(status);
+
+--
+-- create index on weekly_meal_plans for faster lookups
+--
+CREATE INDEX IF NOT EXISTS idx_weekly_meal_plans_user_dates 
+    ON weekly_meal_plans(user_id, start_date, end_date);
+
+CREATE INDEX IF NOT EXISTS idx_weekly_meal_plans_status 
+    ON weekly_meal_plans(status);
