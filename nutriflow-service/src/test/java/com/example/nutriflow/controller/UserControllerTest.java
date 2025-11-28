@@ -1,7 +1,7 @@
 package com.example.nutriflow.controller;
 
-import com.example.nutriflow.model.User;
-import com.example.nutriflow.model.UserTarget;
+import com.example.nutriflow.user.model.User;
+import com.example.nutriflow.user.model.UserTarget;
 import com.example.nutriflow.model.dto.HealthStatisticsResponseDTO;
 import com.example.nutriflow.model.dto.UpdateUserRequestDTO;
 import com.example.nutriflow.model.dto.UpdateUserTargetRequestDTO;
@@ -9,7 +9,7 @@ import com.example.nutriflow.model.enums.BMICategory;
 import com.example.nutriflow.model.enums.CookingSkillLevel;
 import com.example.nutriflow.model.enums.SexType;
 import com.example.nutriflow.service.HealthStatisticsService;
-import com.example.nutriflow.service.UserService;
+import com.example.nutriflow.user.service.UserService;
 import com.example.nutriflow.service.UserTargetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

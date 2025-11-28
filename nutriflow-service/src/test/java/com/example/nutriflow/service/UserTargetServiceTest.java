@@ -1,6 +1,6 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.UserTarget;
+import com.example.nutriflow.user.model.UserTarget;
 import com.example.nutriflow.model.dto.UpdateUserTargetRequestDTO;
 import com.example.nutriflow.service.repository.UserRepository;
 import com.example.nutriflow.service.repository.UserTargetRepository;

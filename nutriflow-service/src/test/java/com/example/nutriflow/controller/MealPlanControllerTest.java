@@ -1,10 +1,10 @@
 package com.example.nutriflow.controller;
 
-import com.example.nutriflow.model.DailyMealPlan;
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.model.dto.DailyMealPlanDetailDto;
-import com.example.nutriflow.model.dto.MealPlanResponseDto;
-import com.example.nutriflow.service.MealPlanService;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.mealplan.model.DailyMealPlan;
+import com.example.nutriflow.mealplan.dto.DailyMealPlanDetailDto;
+import com.example.nutriflow.mealplan.dto.MealPlanResponseDto;
+import com.example.nutriflow.mealplan.service.MealPlanService;
 import com.example.nutriflow.service.repository.DailyMealPlanRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

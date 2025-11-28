@@ -269,3 +269,57 @@ CREATE INDEX IF NOT EXISTS idx_weekly_meal_plans_user_dates
 
 CREATE INDEX IF NOT EXISTS idx_weekly_meal_plans_status 
     ON weekly_meal_plans(status);
+
+--
+-- create table 'ingredient_nutrition'
+-- Stores nutritional information per 100g for all ingredients
+-- Allows programmers/users to update calorie and macro information
+--
+CREATE TABLE IF NOT EXISTS ingredient_nutrition (
+    ingredient_id SERIAL PRIMARY KEY,
+    ingredient_name VARCHAR(255) NOT NULL UNIQUE,
+    ingredient_category VARCHAR(100),
+    
+    -- Nutritional values per 100g
+    calories DECIMAL(7,2) NOT NULL DEFAULT 0,
+    protein DECIMAL(6,2) DEFAULT 0,
+    carbohydrates DECIMAL(6,2) DEFAULT 0,
+    fat DECIMAL(6,2) DEFAULT 0,
+    fiber DECIMAL(6,2) DEFAULT 0,
+    
+    -- Micronutrients per 100g (optional)
+    iron DECIMAL(6,2) DEFAULT 0,
+    calcium DECIMAL(6,2) DEFAULT 0,
+    vitamin_a DECIMAL(6,2) DEFAULT 0,
+    vitamin_c DECIMAL(6,2) DEFAULT 0,
+    vitamin_d DECIMAL(6,2) DEFAULT 0,
+    sodium DECIMAL(6,2) DEFAULT 0,
+    potassium DECIMAL(6,2) DEFAULT 0,
+    
+    -- Additional information
+    unit VARCHAR(50) DEFAULT 'g',
+    description TEXT,
+    source VARCHAR(255),
+    is_verified BOOLEAN DEFAULT FALSE,
+    
+    -- Metadata
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100),
+    updated_by VARCHAR(100),
+    
+    -- Constraints
+    CONSTRAINT check_calories CHECK (calories >= 0),
+    CONSTRAINT check_protein CHECK (protein >= 0),
+    CONSTRAINT check_carbohydrates CHECK (carbohydrates >= 0),
+    CONSTRAINT check_fat CHECK (fat >= 0)
+);
+
+--
+-- create indexes on ingredient_nutrition for faster lookups
+--
+CREATE INDEX IF NOT EXISTS idx_ingredient_name 
+    ON ingredient_nutrition(ingredient_name);
+
+CREATE INDEX IF NOT EXISTS idx_ingredient_category 
+    ON ingredient_nutrition(ingredient_category);

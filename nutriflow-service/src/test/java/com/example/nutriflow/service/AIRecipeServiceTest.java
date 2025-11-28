@@ -1,6 +1,6 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.Recipe;
+import com.example.nutriflow.recipe.model.Recipe;
 import com.example.nutriflow.model.RecipeIngredient;
 import com.example.nutriflow.service.repository.RecipeIngredientRepository;
 import com.example.nutriflow.service.repository.RecipeRepository;

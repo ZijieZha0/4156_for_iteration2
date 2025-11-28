@@ -1,14 +1,14 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.DailyMealPlan;
-import com.example.nutriflow.model.Meal;
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.model.User;
-import com.example.nutriflow.model.UserTarget;
-import com.example.nutriflow.model.WeeklyMealPlan;
-import com.example.nutriflow.model.dto.MealPlanAlternativeRequestDto;
-import com.example.nutriflow.model.dto.MealPlanRequestDto;
-import com.example.nutriflow.model.dto.MealPlanResponseDto;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.user.model.User;
+import com.example.nutriflow.user.model.UserTarget;
+import com.example.nutriflow.mealplan.model.DailyMealPlan;
+import com.example.nutriflow.mealplan.model.Meal;
+import com.example.nutriflow.mealplan.dto.MealPlanAlternativeRequestDto;
+import com.example.nutriflow.mealplan.dto.MealPlanRequestDto;
+import com.example.nutriflow.mealplan.dto.MealPlanResponseDto;
+import com.example.nutriflow.mealplan.model.WeeklyMealPlan;
 import com.example.nutriflow.service.repository.DailyMealPlanRepository;
 import com.example.nutriflow.service.repository.MealRepository;
 import com.example.nutriflow.service.repository.RecipeRepository;

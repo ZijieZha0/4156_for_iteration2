@@ -1,6 +1,6 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.User;
+import com.example.nutriflow.user.model.User;
 import com.example.nutriflow.model.UserHealthHistory;
 import com.example.nutriflow.model.dto.HealthStatisticsResponseDTO;
 import com.example.nutriflow.model.enums.BMICategory;

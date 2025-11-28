@@ -1,6 +1,6 @@
 package com.example.nutriflow.controller;
 
-import com.example.nutriflow.model.Recipe;
+import com.example.nutriflow.recipe.model.Recipe;
 import com.example.nutriflow.service.AIRecipeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

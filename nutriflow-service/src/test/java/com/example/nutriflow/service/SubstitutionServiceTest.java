@@ -2,7 +2,7 @@ package com.example.nutriflow.service;
 
 import com.example.nutriflow.model.RecipeIngredient;
 import com.example.nutriflow.model.SubstitutionRule;
-import com.example.nutriflow.model.User;
+import com.example.nutriflow.user.model.User;
 import com.example.nutriflow.model.dto.SubstitutionCheckResponse;
 import com.example.nutriflow.service.repository.RecipeIngredientRepository;
 import com.example.nutriflow.service.repository.RecipeRepository;
