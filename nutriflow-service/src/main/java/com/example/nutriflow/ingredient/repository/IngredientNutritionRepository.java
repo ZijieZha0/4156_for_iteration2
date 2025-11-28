@@ -50,7 +50,8 @@ public interface IngredientNutritionRepository
      * @return list of matching ingredients
      */
     @Query("SELECT i FROM IngredientNutrition i "
-            + "WHERE LOWER(i.ingredientName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+            + "WHERE LOWER(i.ingredientName) LIKE "
+            + "LOWER(CONCAT('%', :keyword, '%'))")
     List<IngredientNutrition> searchByName(@Param("keyword") String keyword);
 
     /**
@@ -59,6 +60,7 @@ public interface IngredientNutritionRepository
      * @param name the ingredient name
      * @return true if exists
      */
-    boolean existsByIngredientNameIgnoreCase(String name);
+    boolean existsByIngredientNameIgnoreCase(
+            String name);
 }
 

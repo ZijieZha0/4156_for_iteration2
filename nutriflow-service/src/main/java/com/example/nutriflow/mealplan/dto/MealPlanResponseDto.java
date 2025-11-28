@@ -1,4 +1,7 @@
 package com.example.nutriflow.mealplan.dto;
+
+import com.example.nutriflow.mealplan.model.DailyMealPlan;
+import com.example.nutriflow.mealplan.model.WeeklyMealPlan;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
