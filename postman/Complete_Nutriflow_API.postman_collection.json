@@ -24,9 +24,9 @@
 							"raw": "{\n  \"name\": \"Test User\",\n  \"height\": 175.0,\n  \"weight\": 75.0,\n  \"age\": 28,\n  \"sex\": \"MALE\",\n  \"allergies\": [\"peanuts\"],\n  \"dislikes\": [\"mushrooms\"],\n  \"budget\": 500.00,\n  \"cookingSkillLevel\": \"INTERMEDIATE\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/user",
+							"raw": "http://{{baseUrl}}/api/user",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -41,9 +41,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/user/{{userId}}",
+							"raw": "http://{{baseUrl}}/api/user/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -68,9 +68,9 @@
 							"raw": "{\n  \"calories\": 2200.0,\n  \"protein\": 180.0,\n  \"carbs\": 220.0,\n  \"fat\": 70.0,\n  \"fiber\": 30.0\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/user/{{userId}}/target",
+							"raw": "http://{{baseUrl}}/api/user/{{userId}}/target",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -87,9 +87,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/user/{{userId}}/health-stats",
+							"raw": "http://{{baseUrl}}/api/user/{{userId}}/health-stats",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -111,9 +111,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients",
+							"raw": "http://{{baseUrl}}/api/ingredients",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -128,9 +128,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients/calculate?name=chicken breast&amount=200",
+							"raw": "http://{{baseUrl}}/api/ingredients/calculate?name=chicken breast&amount=200",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -156,9 +156,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients/search?keyword=chicken",
+							"raw": "http://{{baseUrl}}/api/ingredients/search?keyword=chicken",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -180,9 +180,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients/category/meat",
+							"raw": "http://{{baseUrl}}/api/ingredients/category/meat",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -208,9 +208,9 @@
 							"raw": "{\n  \"ingredientName\": \"protein powder\",\n  \"ingredientCategory\": \"protein\",\n  \"calories\": 400,\n  \"protein\": 80,\n  \"carbohydrates\": 10,\n  \"fat\": 5,\n  \"fiber\": 2\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients?updatedBy=postman",
+							"raw": "http://{{baseUrl}}/api/ingredients?updatedBy=postman",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -240,9 +240,9 @@
 							"raw": "{\n  \"calories\": 172,\n  \"protein\": 32\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/ingredients/1/nutrition?updatedBy=admin",
+							"raw": "http://{{baseUrl}}/api/ingredients/1/nutrition?updatedBy=admin",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -279,9 +279,9 @@
 							"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"maxPrepTime\": 30,\n  \"targetCalories\": 2000,\n  \"targetProtein\": 150,\n  \"clientId\": \"postman\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/generate",
+							"raw": "http://{{baseUrl}}/api/meal-plans/generate",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -306,9 +306,9 @@
 							"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 7,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 45,\n  \"targetCalories\": 2200,\n  \"targetProtein\": 180,\n  \"preferredCuisines\": [\"Mediterranean\", \"Asian\"],\n  \"tags\": [\"high-protein\"],\n  \"clientId\": \"postman\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/generate",
+							"raw": "http://{{baseUrl}}/api/meal-plans/generate",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -324,9 +324,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/user/{{userId}}",
+							"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -343,9 +343,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/1",
+							"raw": "http://{{baseUrl}}/api/meal-plans/1",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -370,9 +370,9 @@
 							"raw": "{\n  \"userId\": {{userId}},\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"clientId\": \"postman\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/alternative",
+							"raw": "http://{{baseUrl}}/api/meal-plans/alternative",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -397,9 +397,9 @@
 							"raw": "{\n  \"status\": \"completed\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/meal-plans/1/status",
+							"raw": "http://{{baseUrl}}/api/meal-plans/1/status",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -421,9 +421,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/recipes",
+							"raw": "http://{{baseUrl}}/api/recipes",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -438,9 +438,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/recipes/search?ingredient=chicken",
+							"raw": "http://{{baseUrl}}/api/recipes/search?ingredient=chicken",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -462,9 +462,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/ai-recipes?ingredient=avocado",
+							"raw": "http://{{baseUrl}}/api/ai-recipes?ingredient=avocado",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -499,9 +499,9 @@
 							"raw": "{\n  \"userId\": {{userId}},\n  \"ingredientName\": \"chicken breast\",\n  \"quantity\": 500,\n  \"unit\": \"g\",\n  \"expirationDate\": \"2025-12-15\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/pantry",
+							"raw": "http://{{baseUrl}}/api/pantry",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -516,9 +516,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/pantry/user/{{userId}}",
+							"raw": "http://{{baseUrl}}/api/pantry/user/{{userId}}",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -549,9 +549,9 @@
 							"raw": "{\n  \"originalIngredient\": \"butter\",\n  \"allergens\": [\"dairy\"],\n  \"dislikes\": []\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/substitutions/check",
+							"raw": "http://{{baseUrl}}/api/substitutions/check",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
@@ -567,9 +567,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/api/substitutions/suggestions/butter",
+							"raw": "http://{{baseUrl}}/api/substitutions/suggestions/butter",
 							"host": [
-								"{{baseUrl}}"
+								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",

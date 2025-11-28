@@ -65,14 +65,14 @@ This folder contains Postman collection JSON files for testing all Nutriflow API
 ### Environment Variables
 The collections use these variables (set in Postman):
 
-- `baseUrl`: http://localhost:8080
+- `baseUrl`: localhost:8080
 - `userId`: 1
 
 **To set variables:**
 1. Click "Environments" (left sidebar)
 2. Create "Nutriflow Local" environment
 3. Add variables:
-   - `baseUrl` = `http://localhost:8080`
+   - `baseUrl` = `localhost:8080`
    - `userId` = `1`
 4. Select this environment before testing
 
