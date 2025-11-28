@@ -5,7 +5,9 @@ NutriFlow is a personalized nutrition and recipe recommendation platform.
 This milestone implements core backend modules for user data management, pantry tracking, and recipe retrieval, built with Spring Boot, Spring Data JPA, and PostgreSQL.
 
 ## How to Run
-1. use Java 17
+
+### Prerequisites
+1. **Java 17** (required)
 ```shell
 export JAVA_HOME=$(/usr/libexec/java_home -v 17)
 export PATH="$JAVA_HOME/bin:$PATH"
@@ -13,15 +15,70 @@ java -version
 ```  
 (Ensure it prints a Java 17 version.)
 
-2. Compile
+2. **PostgreSQL** (for local development)
+- Create a database named `nutriflow`
+- Update credentials in `nutriflow-service/src/main/resources/application-local.properties`
+
+### Setup and Build
+Navigate to the service directory:
+```shell
+cd nutriflow-service
+```
+
+Compile the project:
 ```shell
 mvn clean compile
 ```
-3. Run the application
+
+### Run the Application
+
+**Quick Start** (recommended):
+```shell
+./start.sh
 ```
+
+**For Local Development** (uses local PostgreSQL):
+```shell
+cd nutriflow-service
+mvn spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+**For Production** (uses Google Cloud SQL):
+```shell
+cd nutriflow-service
 mvn spring-boot:run
-```   
+```
+
 The service will start on `http://localhost:8080` by default.
+
+**Troubleshooting:** If you get "Port 8080 already in use" error:
+```shell
+lsof -ti:8080 | xargs kill -9
+```
+
+### Code Quality Checks
+
+**Run CheckStyle** (verify code style compliance):
+```shell
+cd nutriflow-service
+mvn checkstyle:check
+```
+
+**Run Tests**:
+```shell
+cd nutriflow-service
+mvn test
+```
+
+**Generate Test Coverage Report**:
+```shell
+cd nutriflow-service
+mvn clean test jacoco:report
+```
+Then open the report:
+```shell
+open target/site/jacoco/index.html
+```
 
 ## Testing Frameworks
 This project uses the following testing and mocking frameworks:
@@ -169,6 +226,53 @@ Modules:
     - `POST /substitutions/check` checks if a recipe contains ingredients a user should avoid
     - `GET /substitutions?ingredient={name}&avoid={category}` retrieves substitution suggestions for a given ingredient
 
+### Meal Plan Generation
+
+Purpose: Generate personalized weekly meal plans based on user nutritional targets, preferences, and constraints.
+
+Modules:
+- Entities: Meal, DailyMealPlan, WeeklyMealPlan
+    - Track individual meals, daily plans, and weekly aggregations
+- DTOs: MealPlanRequestDto, MealPlanResponseDto, DailyMealPlanDetailDto, MealPlanAlternativeRequestDto
+- Repository: MealRepository, DailyMealPlanRepository, WeeklyMealPlanRepository
+- Service: MealPlanService
+    - `generateMealPlan(MealPlanRequestDto request)` → generates personalized meal plans
+    - `getDailyMealPlans(Integer userId, LocalDate startDate, LocalDate endDate)` → retrieves saved plans
+    - `getAlternativeMeal(MealPlanAlternativeRequestDto request)` → suggests alternative meals
+- Controller: MealPlanController
+    - `POST /api/meal-plans/generate` → generate a new meal plan
+    - `GET /api/meal-plans/user/{userId}` → retrieve user's meal plans
+    - `GET /api/meal-plans/alternative` → get alternative meal suggestions
+    - `PUT /api/meal-plans/{planId}` → update existing plan
+    - `DELETE /api/meal-plans/{planId}` → delete a plan
+
+### Ingredient Nutrition Database
+
+Purpose: Provide detailed nutritional information for individual ingredients to support recipe analysis and meal planning.
+
+Modules:
+- Entity: IngredientNutrition
+    - Fields: ingredientId, name, servingSize, servingUnit, calories, protein, carbs, fat, fiber, vitamins, minerals
+- Repository: IngredientNutritionRepository
+    - `findByNameContainingIgnoreCase(String name)` → search ingredients by name
+    - `existsByName(String name)` → check if ingredient exists
+- Service: IngredientNutritionService
+    - `getAllIngredients()` → retrieve all ingredients
+    - `searchIngredients(String query)` → search by name
+    - `getIngredientById(Integer id)` → get specific ingredient
+    - `createIngredient(IngredientNutrition ingredient)` → add new ingredient
+    - `updateIngredient(Integer id, IngredientNutrition ingredient)` → update existing
+    - `deleteIngredient(Integer id)` → remove ingredient
+    - `calculateNutritionForAmount(Integer id, Double amount, String unit)` → calculate nutrition for custom amounts
+- Controller: IngredientNutritionController
+    - `GET /api/ingredients` → list all ingredients
+    - `GET /api/ingredients/search?q={query}` → search ingredients
+    - `GET /api/ingredients/{id}` → get ingredient details
+    - `POST /api/ingredients` → create new ingredient
+    - `PUT /api/ingredients/{id}` → update ingredient
+    - `DELETE /api/ingredients/{id}` → delete ingredient
+    - `GET /api/ingredients/{id}/calculate?amount={amount}&unit={unit}` → calculate nutrition
+
 
 ## Database & Data Seeding
 
@@ -180,20 +284,91 @@ Tables:
 - user_health_history
 - recipes
 - pantry_items
-- favorite_recipes (future use)
+- favorite_recipes
 - recipe_ingredients
 - substitution_rules
+- ingredient_nutrition
+- meals
+- daily_meal_plans
+- weekly_meal_plans
+
+Database setup scripts are located in the `/postgresql` directory.
+
+## API Testing with Postman
+
+Comprehensive Postman collections are available in the `/postman` directory for testing all API endpoints:
+
+- `Complete_Nutriflow_API.postman_collection.json` - Full API collection
+- `User_API.postman_collection.json` - User management endpoints
+- `Recipe_API.postman_collection.json` - Recipe and AI recipe endpoints
+- `Meal_Plan_API.postman_collection.json` - Meal plan generation endpoints
+- `Ingredient_Nutrition_API.postman_collection.json` - Ingredient database endpoints
+
+**To use:**
+1. Open Postman
+2. Click "Import" → "Choose Files"
+3. Select the desired collection JSON file
+4. Update the `{{baseUrl}}` variable to `http://localhost:8080` for local testing
+
+See `/postman/README.md` for detailed instructions.
 
 ## Test Coverage
 ```shell
+cd nutriflow-service
 mvn clean verify
 open target/site/jacoco/index.html
 ```
 coverage: 60% for iteration 1
 ![coverage](./resources/coverage_iteration_1.png)
 
-## Checkstyle
+## Project Structure
+
+The codebase is organized into functional modules for better maintainability:
+
 ```
+nutriflow-service/src/main/java/com/example/nutriflow/
+├── user/                 # User management module
+│   ├── model/           # User, UserTarget, UserHealthHistory entities
+│   ├── repository/      # User-related repositories
+│   └── service/         # UserService, UserTargetService, HealthStatisticsService
+├── recipe/              # Recipe management module
+│   ├── model/           # Recipe, FavoriteRecipe, RecipeIngredient entities
+│   ├── repository/      # Recipe-related repositories
+│   ├── service/         # RecipeService, AIRecipeService
+│   └── controller/      # RecipeController, AIRecipeController
+├── mealplan/            # Meal planning module
+│   ├── model/           # Meal, DailyMealPlan, WeeklyMealPlan entities
+│   ├── dto/             # Meal plan request/response DTOs
+│   ├── repository/      # Meal plan repositories
+│   ├── service/         # MealPlanService
+│   └── controller/      # MealPlanController
+├── ingredient/          # Ingredient nutrition module
+│   ├── model/           # IngredientNutrition entity
+│   ├── repository/      # IngredientNutritionRepository
+│   ├── service/         # IngredientNutritionService
+│   └── controller/      # IngredientNutritionController
+├── pantry/              # Pantry management module
+│   ├── model/           # PantryItem entity
+│   ├── repository/      # PantryRepository
+│   ├── service/         # PantryService
+│   └── controller/      # PantryController
+├── substitution/        # Substitution rules module
+│   ├── model/           # SubstitutionRule entity
+│   ├── repository/      # SubstitutionRuleRepository
+│   ├── service/         # SubstitutionService
+│   └── controller/      # SubstitutionController
+└── shared/              # Shared DTOs and utilities
+    ├── dto/             # Common DTOs
+    └── enums/           # Shared enumerations
+```
+
+## Code Quality
+
+**CheckStyle:**
+```shell
+cd nutriflow-service
 mvn checkstyle:check
 ```
+Current status: 0 violations ✓
+
 ![checkstyle](./resources/style_check_iteration_1.png)
