@@ -190,10 +190,10 @@ mvn clean verify
 open target/site/jacoco/index.html
 ```
 coverage: 60% for iteration 1
-![alt text](coverage_iteration_1.png)
+![coverage](./resources/coverage_iteration_1.png)
 
 ## Checkstyle
 ```
 mvn checkstyle:check
 ```
-![alt text](<style_check_iteration_1.png>)
+![checkstyle](./resources/style_check_iteration_1.png)
