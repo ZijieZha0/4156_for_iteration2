@@ -86,4 +86,8 @@ public class Recipe {
     /** Popularity score used to rank recipes (higher means more popular). */
     @Column(name = "popularity_score")
     private Integer popularityScore;
+
+    public void setRecipeId(int i) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
