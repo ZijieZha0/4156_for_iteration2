@@ -416,6 +416,11 @@ public class MealPlanService {
                 continue;
             }
 
+            // Skip if recipe has invalid nutrition data
+            if (recipe.getCalories() == null || recipe.getProtein() == null) {
+                continue;
+            }
+
             // Skip if exceeds prep time
             if (maxPrepTime != null
                     && recipe.getCookTime() != null
@@ -428,6 +433,15 @@ public class MealPlanService {
                     recipe.getCalories().doubleValue();
             final double protein =
                     recipe.getProtein().doubleValue();
+
+            // Prevent division by zero
+            if (targetCalories == 0 || targetProtein == 0) {
+                // If no targets, just pick any valid recipe
+                if (bestMatch == null) {
+                    bestMatch = recipe;
+                }
+                continue;
+            }
 
             final double calorieDiff =
                     Math.abs(calories - targetCalories)
