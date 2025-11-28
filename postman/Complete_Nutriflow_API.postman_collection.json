@@ -1,0 +1,600 @@
+{
+	"info": {
+		"_postman_id": "complete-nutriflow-api",
+		"name": "Nutriflow - Complete API Suite",
+		"description": "All Nutriflow API endpoints in one collection for comprehensive testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test User\",\n  \"height\": 175.0,\n  \"weight\": 75.0,\n  \"age\": 28,\n  \"sex\": \"MALE\",\n  \"allergies\": [\"peanuts\"],\n  \"dislikes\": [\"mushrooms\"],\n  \"budget\": 500.00,\n  \"cookingSkillLevel\": \"INTERMEDIATE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userId}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Set Nutritional Targets",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"calories\": 2200.0,\n  \"protein\": 180.0,\n  \"carbs\": 220.0,\n  \"fat\": 70.0,\n  \"fiber\": 30.0\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user/{{userId}}/target",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userId}}",
+								"target"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Health Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/user/{{userId}}/health-stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userId}}",
+								"health-stats"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Ingredient Nutrition",
+			"item": [
+				{
+					"name": "Get All Ingredients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients"
+							]
+						}
+					}
+				},
+				{
+					"name": "Calculate Nutrition (200g Chicken)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients/calculate?name=chicken breast&amount=200",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients",
+								"calculate"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "chicken breast"
+								},
+								{
+									"key": "amount",
+									"value": "200"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Ingredients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients/search?keyword=chicken",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "chicken"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients/category/meat",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients",
+								"category",
+								"meat"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Custom Ingredient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ingredientName\": \"protein powder\",\n  \"ingredientCategory\": \"protein\",\n  \"calories\": 400,\n  \"protein\": 80,\n  \"carbohydrates\": 10,\n  \"fat\": 5,\n  \"fiber\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients?updatedBy=postman",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients"
+							],
+							"query": [
+								{
+									"key": "updatedBy",
+									"value": "postman"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Nutrition Values",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"calories\": 172,\n  \"protein\": 32\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ingredients/1/nutrition?updatedBy=admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ingredients",
+								"1",
+								"nutrition"
+							],
+							"query": [
+								{
+									"key": "updatedBy",
+									"value": "admin"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Meal Plan Generation",
+			"item": [
+				{
+					"name": "Generate Daily Meal Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"maxPrepTime\": 30,\n  \"targetCalories\": 2000,\n  \"targetProtein\": 150,\n  \"clientId\": \"postman\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/generate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"generate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Generate Weekly Meal Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 7,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 45,\n  \"targetCalories\": 2200,\n  \"targetProtein\": 180,\n  \"preferredCuisines\": [\"Mediterranean\", \"Asian\"],\n  \"tags\": [\"high-protein\"],\n  \"clientId\": \"postman\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/generate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"generate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User's Meal Plans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"user",
+								"{{userId}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Meal Plan by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Request Alternative Meal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": {{userId}},\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"clientId\": \"postman\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/alternative",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"alternative"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Meal Plan Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"completed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/meal-plans/1/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"meal-plans",
+								"1",
+								"status"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Recipe Management",
+			"item": [
+				{
+					"name": "Get All Recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes"
+							]
+						}
+					}
+				},
+				{
+					"name": "Search by Ingredient",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/recipes/search?ingredient=chicken",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"recipes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "ingredient",
+									"value": "chicken"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get AI Recipe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ai-recipes?ingredient=avocado",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ai-recipes"
+							],
+							"query": [
+								{
+									"key": "ingredient",
+									"value": "avocado"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Pantry Management",
+			"item": [
+				{
+					"name": "Add Pantry Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": {{userId}},\n  \"ingredientName\": \"chicken breast\",\n  \"quantity\": 500,\n  \"unit\": \"g\",\n  \"expirationDate\": \"2025-12-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/pantry",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"pantry"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User's Pantry",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/pantry/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"pantry",
+								"user",
+								"{{userId}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Ingredient Substitution",
+			"item": [
+				{
+					"name": "Check Substitutions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"originalIngredient\": \"butter\",\n  \"allergens\": [\"dairy\"],\n  \"dislikes\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/substitutions/check",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"substitutions",
+								"check"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Substitution Suggestions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/substitutions/suggestions/butter",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"substitutions",
+								"suggestions",
+								"butter"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+

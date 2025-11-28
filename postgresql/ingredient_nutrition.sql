@@ -142,3 +142,4 @@ COMMENT ON COLUMN ingredient_nutrition.calories IS 'Calories per 100g of ingredi
 COMMENT ON COLUMN ingredient_nutrition.protein IS 'Protein in grams per 100g';
 COMMENT ON COLUMN ingredient_nutrition.is_verified IS 'Whether the nutritional data has been verified by a reliable source';
 
+
