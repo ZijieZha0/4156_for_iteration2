@@ -12,7 +12,7 @@ echo "Checking Java version..."
 JAVA_VERSION=$(java -version 2>&1 | head -n 1 | cut -d'"' -f2 | cut -d'.' -f1)
 
 if [ "$JAVA_VERSION" != "17" ]; then
-    echo "⚠️  Warning: Java 17 is required, but Java $JAVA_VERSION is currently active."
+    echo "️ Warning: Java 17 is required, but Java $JAVA_VERSION is currently active."
     echo ""
     echo "To switch to Java 17, run:"
     echo "  export JAVA_HOME=\$(/usr/libexec/java_home -v 17)"
@@ -30,7 +30,7 @@ fi
 echo ""
 echo "Navigating to nutriflow-service directory..."
 cd "$(dirname "$0")/nutriflow-service" || {
-    echo "❌ Error: nutriflow-service directory not found"
+    echo " Error: nutriflow-service directory not found"
     exit 1
 }
 
