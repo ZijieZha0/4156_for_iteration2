@@ -108,12 +108,10 @@
 					"raw": "{\n  \"userId\": {{userId}},\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"excludeRecipeIds\": [42, 43],\n  \"maintainMealType\": true,\n  \"maxCalorieDifference\": 100,\n  \"clientId\": \"postman-test\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/alternative",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/alternative",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
