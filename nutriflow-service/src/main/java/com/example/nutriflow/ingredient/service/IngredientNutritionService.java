@@ -94,6 +94,8 @@ public class IngredientNutritionService {
      * @param ingredient the ingredient to save
      * @param updatedBy  the user/system making the update
      * @return saved ingredient
+     * @throws IllegalArgumentException if ingredient name already exists
+     *                                 when creating new ingredient
      */
     @Transactional
     public IngredientNutrition saveIngredient(
@@ -102,7 +104,19 @@ public class IngredientNutritionService {
         final LocalDateTime now = LocalDateTime.now();
 
         if (ingredient.getIngredientId() == null) {
-            // New ingredient
+            // New ingredient - check for duplicate name
+            final Optional<IngredientNutrition> existingOpt =
+                    getIngredientByName(ingredient.getIngredientName());
+            if (existingOpt.isPresent()) {
+                final String errorMsg = String.format(
+                        "Ingredient with name '%s' already exists (ID: %d). "
+                        + "Use PUT /api/ingredients/{id} to update instead.",
+                        ingredient.getIngredientName(),
+                        existingOpt.get().getIngredientId());
+                LOGGER.warn("Attempted to create duplicate ingredient: {}",
+                        ingredient.getIngredientName());
+                throw new IllegalArgumentException(errorMsg);
+            }
             ingredient.setCreatedAt(now);
             ingredient.setCreatedBy(updatedBy);
             LOGGER.info("Creating new ingredient: {}",

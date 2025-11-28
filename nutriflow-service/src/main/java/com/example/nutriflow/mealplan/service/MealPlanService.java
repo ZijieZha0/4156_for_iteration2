@@ -264,10 +264,37 @@ public class MealPlanService {
             }
         }
 
-        // Create and save daily meal plan
-        final DailyMealPlan dailyPlan = new DailyMealPlan();
-        dailyPlan.setUserId(user.getUserId());
-        dailyPlan.setPlanDate(date);
+        // Check if a meal plan already exists for this user and date
+        final Optional<DailyMealPlan> existingPlanOpt =
+                dailyMealPlanRepository.findByUserIdAndPlanDate(
+                        user.getUserId(), date);
+
+        final DailyMealPlan dailyPlan;
+        if (existingPlanOpt.isPresent()) {
+            // Update existing plan - delete old meals first
+            dailyPlan = existingPlanOpt.get();
+            LOGGER.info("Updating existing meal plan ID: {} for user {} on {}",
+                    dailyPlan.getPlanId(), user.getUserId(), date);
+            
+            // Delete old meals associated with this plan
+            if (dailyPlan.getMealIds() != null && dailyPlan.getMealIds().length > 0) {
+                final List<Integer> oldMealIds =
+                        Arrays.asList(dailyPlan.getMealIds());
+                mealRepository.deleteAllById(oldMealIds);
+                LOGGER.info("Deleted {} old meals for plan ID: {}",
+                        oldMealIds.size(), dailyPlan.getPlanId());
+            }
+        } else {
+            // Create new plan
+            dailyPlan = new DailyMealPlan();
+            dailyPlan.setUserId(user.getUserId());
+            dailyPlan.setPlanDate(date);
+            dailyPlan.setCreatedAt(LocalDateTime.now());
+            LOGGER.info("Creating new meal plan for user {} on {}",
+                    user.getUserId(), date);
+        }
+
+        // Update meal plan data
         dailyPlan.setMealIds(meals.stream()
                 .map(DailyMealPlanDetailDto.MealDetailDto::getMealId)
                 .toArray(Integer[]::new));
