@@ -21,7 +21,7 @@
 					"raw": "{\n  \"name\": \"John Doe\",\n  \"height\": 175.5,\n  \"weight\": 75.0,\n  \"age\": 28,\n  \"sex\": \"MALE\",\n  \"allergies\": [\"peanuts\", \"shellfish\"],\n  \"dislikes\": [\"mushrooms\"],\n  \"budget\": 500.00,\n  \"cookingSkillLevel\": \"INTERMEDIATE\",\n  \"equipments\": [\"oven\", \"blender\"]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/user",
+					"raw": "http://localhost:8080/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -29,7 +29,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user"
+						"users"
 					]
 				},
 				"description": "Creates a new user account"
@@ -42,7 +42,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/user/1",
+					"raw": "http://localhost:8080/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -50,7 +50,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1"
 					]
 				},
@@ -73,7 +73,7 @@
 					"raw": "{\n  \"name\": \"John Doe Updated\",\n  \"height\": 176.0,\n  \"weight\": 73.5,\n  \"age\": 29,\n  \"allergies\": [\"peanuts\", \"shellfish\", \"dairy\"],\n  \"budget\": 600.00\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/user/1",
+					"raw": "http://localhost:8080/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -81,7 +81,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1"
 					]
 				},
@@ -104,7 +104,7 @@
 					"raw": "{\n  \"calories\": 2200.0,\n  \"protein\": 180.0,\n  \"carbs\": 220.0,\n  \"fat\": 70.0,\n  \"fiber\": 30.0,\n  \"iron\": 18.0,\n  \"calcium\": 1000.0,\n  \"vitaminA\": 900.0,\n  \"vitaminC\": 90.0,\n  \"vitaminD\": 20.0,\n  \"sodium\": 2300.0,\n  \"potassium\": 3500.0\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/user/1/target",
+					"raw": "http://localhost:8080/api/users/1/targets",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -112,9 +112,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1",
-						"target"
+						"targets"
 					]
 				},
 				"description": "Sets nutritional targets for a user"
@@ -127,7 +127,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/user/1/target",
+					"raw": "http://localhost:8080/api/users/1/targets",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -135,9 +135,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1",
-						"target"
+						"targets"
 					]
 				},
 				"description": "Retrieves the latest nutritional targets for a user"
@@ -150,7 +150,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/user/1/health-stats",
+					"raw": "http://localhost:8080/api/users/1/health_statistics",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -158,9 +158,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1",
-						"health-stats"
+						"health_statistics"
 					]
 				},
 				"description": "Retrieves BMI, health statistics, and recommendations for a user"
@@ -173,7 +173,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/user/1",
+					"raw": "http://localhost:8080/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -181,7 +181,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"user",
+						"users",
 						"1"
 					]
 				},
