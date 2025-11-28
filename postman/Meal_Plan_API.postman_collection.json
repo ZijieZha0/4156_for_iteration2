@@ -18,15 +18,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 30,\n  \"targetCalories\": 2000,\n  \"targetProtein\": 150,\n  \"clientId\": \"postman-test\"\n}"
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 30,\n  \"targetCalories\": 2000,\n  \"targetProtein\": 150,\n  \"clientId\": \"postman-test\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/generate",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
@@ -49,15 +47,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 7,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 45,\n  \"targetCalories\": 2200,\n  \"targetProtein\": 180,\n  \"preferredCuisines\": [\"Mediterranean\", \"Asian\"],\n  \"tags\": [\"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 7,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 45,\n  \"targetCalories\": 2200,\n  \"targetProtein\": 180,\n  \"preferredCuisines\": [\"Mediterranean\", \"Asian\"],\n  \"tags\": [\"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/generate",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
@@ -80,15 +76,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"maxPrepTime\": 20,\n  \"targetCalories\": 1800,\n  \"targetProtein\": 140,\n  \"targetCarbs\": 200,\n  \"targetFat\": 60,\n  \"availableIngredients\": [\"chicken\", \"rice\", \"broccoli\"],\n  \"preferredCuisines\": [\"Italian\"],\n  \"tags\": [\"quick\", \"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"maxPrepTime\": 20,\n  \"targetCalories\": 1800,\n  \"targetProtein\": 140,\n  \"targetCarbs\": 200,\n  \"targetFat\": 60,\n  \"availableIngredients\": [\"chicken\", \"rice\", \"broccoli\"],\n  \"preferredCuisines\": [\"Italian\"],\n  \"tags\": [\"quick\", \"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/generate",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
@@ -111,7 +105,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"excludeRecipeIds\": [42, 43],\n  \"maintainMealType\": true,\n  \"maxCalorieDifference\": 100,\n  \"clientId\": \"postman-test\"\n}"
+					"raw": "{\n  \"userId\": {{userId}},\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"excludeRecipeIds\": [42, 43],\n  \"maintainMealType\": true,\n  \"maxCalorieDifference\": 100,\n  \"clientId\": \"postman-test\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/meal-plans/alternative",
@@ -136,17 +130,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/user/1",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
 						"user",
-						"1"
+						"{{userId}}"
 					]
 				},
 				"description": "Retrieves all meal plans for user ID 1"
@@ -159,17 +151,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/user/1?startDate=2025-11-28&endDate=2025-12-04",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}?startDate=2025-11-28&endDate=2025-12-04",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
 						"user",
-						"1"
+						"{{userId}}"
 					],
 					"query": [
 						{
@@ -192,17 +182,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/user/1?status=active",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}?status=active",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
 						"user",
-						"1"
+						"{{userId}}"
 					],
 					"query": [
 						{
@@ -221,16 +209,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/1",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
-						"1"
+						"{{planId}}"
 					]
 				},
 				"description": "Retrieves a specific meal plan by its ID"
@@ -252,16 +238,14 @@
 					"raw": "{\n  \"status\": \"completed\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/1/status",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}/status",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
-						"1",
+						"{{planId}}",
 						"status"
 					]
 				},
@@ -275,16 +259,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/meal-plans/1",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"meal-plans",
-						"1"
+						"{{planId}}"
 					]
 				},
 				"description": "Deletes a meal plan by ID"
@@ -295,11 +277,16 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:8080",
+			"value": "localhost:8080",
 			"type": "string"
 		},
 		{
 			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "planId",
 			"value": "1",
 			"type": "string"
 		}

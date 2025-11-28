@@ -12,12 +12,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/recipes",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes"
@@ -33,16 +31,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/recipes/1",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes/{{recipeId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes",
-						"1"
+						"{{recipeId}}"
 					]
 				},
 				"description": "Retrieves a specific recipe by its ID"
@@ -55,12 +51,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/recipes/search?ingredient=chicken",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes/search?ingredient=chicken",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes",
@@ -83,17 +77,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/recipes/favorites/1",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes/favorites/{{userId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes",
 						"favorites",
-						"1"
+						"{{userId}}"
 					]
 				},
 				"description": "Retrieves all favorite recipes for a specific user"
@@ -112,15 +104,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": 1,\n  \"recipeId\": 42\n}"
+					"raw": "{\n  \"userId\": {{userId}},\n  \"recipeId\": {{recipeId}}\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/recipes/favorites",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes/favorites",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes",
@@ -137,18 +127,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/recipes/favorites/1/42",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/recipes/favorites/{{userId}}/{{recipeId}}",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"recipes",
 						"favorites",
-						"1",
-						"42"
+						"{{userId}}",
+						"{{recipeId}}"
 					]
 				},
 				"description": "Removes a recipe from user's favorites (userId=1, recipeId=42)"
@@ -161,12 +149,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/ai-recipes?ingredient=avocado",
-					"protocol": "http",
+					"raw": "http://{{baseUrl}}/api/ai-recipes?ingredient=avocado",
 					"host": [
-						"localhost"
+						"http://{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"ai-recipes"
@@ -188,6 +174,16 @@
 		{
 			"key": "baseUrl",
 			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "recipeId",
+			"value": "1",
 			"type": "string"
 		}
 	]
