@@ -1,13 +1,14 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.RecipeIngredient;
-import com.example.nutriflow.model.SubstitutionRule;
-import com.example.nutriflow.model.User;
-import com.example.nutriflow.model.dto.SubstitutionCheckResponse;
-import com.example.nutriflow.service.repository.RecipeIngredientRepository;
-import com.example.nutriflow.service.repository.RecipeRepository;
-import com.example.nutriflow.service.repository.SubstitutionRuleRepository;
-import com.example.nutriflow.service.repository.UserRepository;
+import com.example.nutriflow.recipe.model.RecipeIngredient;
+import com.example.nutriflow.substitution.model.SubstitutionRule;
+import com.example.nutriflow.user.model.User;
+import com.example.nutriflow.substitution.dto.SubstitutionCheckResponse;
+import com.example.nutriflow.recipe.repository.RecipeIngredientRepository;
+import com.example.nutriflow.recipe.repository.RecipeRepository;
+import com.example.nutriflow.substitution.repository.SubstitutionRuleRepository;
+import com.example.nutriflow.substitution.service.SubstitutionService;
+import com.example.nutriflow.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

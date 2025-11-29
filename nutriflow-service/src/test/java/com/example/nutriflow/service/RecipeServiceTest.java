@@ -1,9 +1,10 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.FavoriteRecipe;
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.service.repository.FavoriteRecipeRepository;
-import com.example.nutriflow.service.repository.RecipeRepository;
+import com.example.nutriflow.recipe.model.FavoriteRecipe;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.recipe.repository.FavoriteRecipeRepository;
+import com.example.nutriflow.recipe.repository.RecipeRepository;
+import com.example.nutriflow.recipe.service.RecipeService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;

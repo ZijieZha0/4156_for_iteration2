@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "recipe-api-collection",
+		"name": "Nutriflow - Recipe API",
+		"description": "Complete API test collection for Recipe Management endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Get All Recipes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes"
+					]
+				},
+				"description": "Retrieves all recipes in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Recipe by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes/{{recipeId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes",
+						"{{recipeId}}"
+					]
+				},
+				"description": "Retrieves a specific recipe by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Search Recipes by Ingredient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes/search?ingredient=chicken",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "ingredient",
+							"value": "chicken"
+						}
+					]
+				},
+				"description": "Searches for recipes containing a specific ingredient"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get User's Favorite Recipes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes/favorites/{{userId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes",
+						"favorites",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves all favorite recipes for a specific user"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Add Recipe to Favorites",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": {{userId}},\n  \"recipeId\": {{recipeId}}\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes/favorites",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes",
+						"favorites"
+					]
+				},
+				"description": "Adds a recipe to user's favorites"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Remove Recipe from Favorites",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/recipes/favorites/{{userId}}/{{recipeId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"recipes",
+						"favorites",
+						"{{userId}}",
+						"{{recipeId}}"
+					]
+				},
+				"description": "Removes a recipe from user's favorites (userId=1, recipeId=42)"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Get AI-Generated Recipe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ai-recipes?ingredient=avocado",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ai-recipes"
+					],
+					"query": [
+						{
+							"key": "ingredient",
+							"value": "avocado",
+							"description": "Primary ingredient for AI recipe generation"
+						}
+					]
+				},
+				"description": "Gets an AI-generated recipe based on an ingredient"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "recipeId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+

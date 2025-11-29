@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "ingredient-nutrition-api-collection",
+		"name": "Nutriflow - Ingredient Nutrition API",
+		"description": "Complete API test collection for Ingredient Nutrition endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Get All Ingredients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients"
+					]
+				},
+				"description": "Retrieves all ingredients in the nutrition database"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Ingredient by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/{{ingredientId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{ingredientId}}"
+					]
+				},
+				"description": "Retrieves a specific ingredient by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get Ingredient by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/name/chicken breast",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"name",
+						"chicken breast"
+					]
+				},
+				"description": "Retrieves an ingredient by name (case-insensitive)"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Search Ingredients by Keyword",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/search?keyword=chicken",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "chicken"
+						}
+					]
+				},
+				"description": "Searches for ingredients containing the keyword"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Get Ingredients by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/category/meat",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"category",
+						"meat"
+					]
+				},
+				"description": "Retrieves all ingredients in a specific category (meat, vegetable, grain, etc.)"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Calculate Nutrition for Amount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/calculate?name=chicken breast&amount=200",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "chicken breast",
+							"description": "Ingredient name"
+						},
+						{
+							"key": "amount",
+							"value": "200",
+							"description": "Amount in grams"
+						}
+					]
+				},
+				"description": "Calculates nutritional values for a specific amount of an ingredient (200g chicken breast)"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Calculate Meal Total (Multiple Ingredients)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// This demonstrates how to calculate total nutrition for a meal",
+							"// You would call the calculate endpoint for each ingredient",
+							"// Then sum the results in your application code"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/calculate?name=white rice&amount=150",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "white rice"
+						},
+						{
+							"key": "amount",
+							"value": "150"
+						}
+					]
+				},
+				"description": "Example: Calculate 150g rice (repeat for each ingredient, then sum results)"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Create New Ingredient",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ingredientName\": \"protein powder\",\n  \"ingredientCategory\": \"protein\",\n  \"calories\": 400,\n  \"protein\": 80,\n  \"carbohydrates\": 10,\n  \"fat\": 5,\n  \"fiber\": 2,\n  \"source\": \"user-defined\",\n  \"isVerified\": false,\n  \"description\": \"Whey protein powder isolate\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients?updatedBy={{userId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients"
+					],
+					"query": [
+						{
+							"key": "updatedBy",
+							"value": "{{userId}}",
+							"description": "Optional: tracks who created this"
+						}
+					]
+				},
+				"description": "Creates a new ingredient in the nutrition database"
+			},
+			"response": []
+		},
+		{
+			"name": "9. Update Ingredient (Full)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ingredientName\": \"chicken breast\",\n  \"ingredientCategory\": \"meat\",\n  \"calories\": 172,\n  \"protein\": 31.5,\n  \"carbohydrates\": 0,\n  \"fat\": 3.8,\n  \"fiber\": 0,\n  \"source\": \"USDA-2025\",\n  \"isVerified\": true,\n  \"description\": \"Updated nutritional values\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/{{ingredientId}}?updatedBy=nutritionist",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{ingredientId}}"
+					],
+					"query": [
+						{
+							"key": "updatedBy",
+							"value": "nutritionist"
+						}
+					]
+				},
+				"description": "Updates all fields of an existing ingredient"
+			},
+			"response": []
+		},
+		{
+			"name": "10. Update Nutrition Values Only",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"calories\": 170,\n  \"protein\": 32,\n  \"fat\": 4.0\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/{{ingredientId}}/nutrition?updatedBy=admin",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{ingredientId}}",
+						"nutrition"
+					],
+					"query": [
+						{
+							"key": "updatedBy",
+							"value": "admin"
+						}
+					]
+				},
+				"description": "Partial update - only updates specified nutrition values"
+			},
+			"response": []
+		},
+		{
+			"name": "11. Delete Ingredient",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/ingredients/{{ingredientId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"ingredients",
+						"{{ingredientId}}"
+					]
+				},
+				"description": "Deletes an ingredient from the database"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "ingredientId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+

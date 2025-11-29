@@ -1,9 +1,10 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.UserTarget;
-import com.example.nutriflow.model.dto.UpdateUserTargetRequestDTO;
-import com.example.nutriflow.service.repository.UserRepository;
-import com.example.nutriflow.service.repository.UserTargetRepository;
+import com.example.nutriflow.user.model.UserTarget;
+import com.example.nutriflow.user.dto.UpdateUserTargetRequestDTO;
+import com.example.nutriflow.user.repository.UserRepository;
+import com.example.nutriflow.user.repository.UserTargetRepository;
+import com.example.nutriflow.user.service.UserTargetService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

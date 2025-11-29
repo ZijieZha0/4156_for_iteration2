@@ -1,10 +1,11 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.User;
-import com.example.nutriflow.model.dto.UpdateUserRequestDTO;
-import com.example.nutriflow.model.enums.CookingSkillLevel;
-import com.example.nutriflow.model.enums.SexType;
-import com.example.nutriflow.service.repository.UserRepository;
+import com.example.nutriflow.user.model.User;
+import com.example.nutriflow.user.dto.UpdateUserRequestDTO;
+import com.example.nutriflow.shared.enums.CookingSkillLevel;
+import com.example.nutriflow.shared.enums.SexType;
+import com.example.nutriflow.user.repository.UserRepository;
+import com.example.nutriflow.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

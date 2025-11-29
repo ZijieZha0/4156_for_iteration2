@@ -1,7 +1,8 @@
 package com.example.nutriflow.controller;
 
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.service.AIRecipeService;
+import com.example.nutriflow.recipe.controller.AIRecipeController;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.recipe.service.AIRecipeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

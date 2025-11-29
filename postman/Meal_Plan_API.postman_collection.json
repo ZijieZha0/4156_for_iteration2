@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "meal-plan-api-collection",
+		"name": "Nutriflow - Meal Plan API",
+		"description": "Complete API test collection for Meal Plan Generation endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Generate Daily Meal Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 30,\n  \"targetCalories\": 2000,\n  \"targetProtein\": 150,\n  \"clientId\": \"postman-test\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"generate"
+					]
+				},
+				"description": "Generates a single day meal plan with 3 meals"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Generate Weekly Meal Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 7,\n  \"startDate\": \"2025-11-28\",\n  \"maxPrepTime\": 45,\n  \"targetCalories\": 2200,\n  \"targetProtein\": 180,\n  \"preferredCuisines\": [\"Mediterranean\", \"Asian\"],\n  \"tags\": [\"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"generate"
+					]
+				},
+				"description": "Generates a 7-day weekly meal plan with cuisine and tag filters"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Generate Meal Plan with All Filters",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": {{userId}},\n  \"mealsPerDay\": 3,\n  \"numberOfDays\": 1,\n  \"maxPrepTime\": 20,\n  \"targetCalories\": 1800,\n  \"targetProtein\": 140,\n  \"targetCarbs\": 200,\n  \"targetFat\": 60,\n  \"availableIngredients\": [\"chicken\", \"rice\", \"broccoli\"],\n  \"preferredCuisines\": [\"Italian\"],\n  \"tags\": [\"quick\", \"high-protein\"],\n  \"clientId\": \"postman-test\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/generate",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"generate"
+					]
+				},
+				"description": "Generates meal plan with maximum filters applied"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Request Alternative Meal",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": {{userId}},\n  \"planId\": 1,\n  \"mealIdToReplace\": 1,\n  \"dislikedRecipeId\": 42,\n  \"dislikeReason\": \"Too spicy\",\n  \"excludeRecipeIds\": [42, 43],\n  \"maintainMealType\": true,\n  \"maxCalorieDifference\": 100,\n  \"clientId\": \"postman-test\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/alternative",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"alternative"
+					]
+				},
+				"description": "Requests an alternative meal when user dislikes a recipe"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Get User's Meal Plans (All)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"user",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves all meal plans for user ID 1"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get User's Meal Plans (Date Range)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}?startDate=2025-11-28&endDate=2025-12-04",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"user",
+						"{{userId}}"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2025-11-28"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-12-04"
+						}
+					]
+				},
+				"description": "Retrieves meal plans within a specific date range"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Get User's Meal Plans (By Status)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/user/{{userId}}?status=active",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"user",
+						"{{userId}}"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "active"
+						}
+					]
+				},
+				"description": "Retrieves only active meal plans for a user"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Get Specific Meal Plan by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"{{planId}}"
+					]
+				},
+				"description": "Retrieves a specific meal plan by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "9. Update Meal Plan Status",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"status\": \"completed\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}/status",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"{{planId}}",
+						"status"
+					]
+				},
+				"description": "Updates the status of a meal plan (e.g., active, completed, cancelled)"
+			},
+			"response": []
+		},
+		{
+			"name": "10. Delete Meal Plan",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/meal-plans/{{planId}}",
+					"host": [
+						"http://{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"meal-plans",
+						"{{planId}}"
+					]
+				},
+				"description": "Deletes a meal plan by ID"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "planId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+

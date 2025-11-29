@@ -1,9 +1,10 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.model.RecipeIngredient;
-import com.example.nutriflow.service.repository.RecipeIngredientRepository;
-import com.example.nutriflow.service.repository.RecipeRepository;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.recipe.model.RecipeIngredient;
+import com.example.nutriflow.recipe.repository.RecipeIngredientRepository;
+import com.example.nutriflow.recipe.repository.RecipeRepository;
+import com.example.nutriflow.recipe.service.AIRecipeService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

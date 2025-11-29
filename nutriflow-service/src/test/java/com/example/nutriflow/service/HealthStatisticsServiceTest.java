@@ -1,11 +1,12 @@
 package com.example.nutriflow.service;
 
-import com.example.nutriflow.model.User;
-import com.example.nutriflow.model.UserHealthHistory;
-import com.example.nutriflow.model.dto.HealthStatisticsResponseDTO;
-import com.example.nutriflow.model.enums.BMICategory;
-import com.example.nutriflow.service.repository.UserHealthHistoryRepository;
-import com.example.nutriflow.service.repository.UserRepository;
+import com.example.nutriflow.user.model.User;
+import com.example.nutriflow.user.model.UserHealthHistory;
+import com.example.nutriflow.user.dto.HealthStatisticsResponseDTO;
+import com.example.nutriflow.shared.enums.BMICategory;
+import com.example.nutriflow.user.repository.UserHealthHistoryRepository;
+import com.example.nutriflow.user.repository.UserRepository;
+import com.example.nutriflow.user.service.HealthStatisticsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

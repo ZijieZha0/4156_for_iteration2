@@ -1,8 +1,10 @@
 package com.example.nutriflow.controller;
 
-import com.example.nutriflow.model.FavoriteRecipe;
-import com.example.nutriflow.model.Recipe;
-import com.example.nutriflow.service.RecipeService;
+import com.example.nutriflow.recipe.controller.RecipeController;
+import com.example.nutriflow.recipe.model.FavoriteRecipe;
+import com.example.nutriflow.recipe.model.Recipe;
+import com.example.nutriflow.recipe.service.RecipeService;
+import com.example.nutriflow.recipe.controller.RecipeController;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
