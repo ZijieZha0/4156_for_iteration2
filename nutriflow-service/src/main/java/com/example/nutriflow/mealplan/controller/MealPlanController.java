@@ -6,6 +6,8 @@ import com.example.nutriflow.mealplan.dto.MealPlanRequestDto;
 import com.example.nutriflow.mealplan.dto.MealPlanResponseDto;
 import com.example.nutriflow.mealplan.service.MealPlanService;
 import com.example.nutriflow.mealplan.repository.DailyMealPlanRepository;
+import com.example.nutriflow.mealplan.repository.WeeklyMealPlanRepository;
+import com.example.nutriflow.mealplan.model.WeeklyMealPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,10 @@ public class MealPlanController {
     /** Repository for meal plan data. */
     @Autowired
     private DailyMealPlanRepository dailyMealPlanRepository;
+
+    /** Repository for weekly meal plan data. */
+    @Autowired
+    private WeeklyMealPlanRepository weeklyMealPlanRepository;
 
     /**
      * Generate a meal plan based on user preferences and constraints.
@@ -295,35 +301,48 @@ public class MealPlanController {
                 requestTime, planId);
 
         try {
-            final Optional<DailyMealPlan> planOpt =
+            final Optional<DailyMealPlan> dailyPlanOpt =
                     dailyMealPlanRepository.findById(planId);
 
-            if (planOpt.isEmpty()) {
+            if (dailyPlanOpt.isPresent()) {
+                final Map<String, Object> response = new HashMap<>();
+                response.put("success", true);
+                response.put("planType", "daily");
+                response.put("mealPlan", dailyPlanOpt.get());
+
                 LOGGER.info("[API_RESPONSE] timestamp={}, "
-                        + "endpoint=GET /api/meal-plans/{}, "
-                        + "status=404",
+                        + "endpoint=GET /api/meal-plans/{}, status=200 (daily)",
                         LocalDateTime.now(), planId);
 
-                final Map<String, Object> errorResponse =
-                        new HashMap<>();
-                errorResponse.put("success", false);
-                errorResponse.put("message",
-                        "Meal plan not found");
-
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(errorResponse);
+                return ResponseEntity.ok(response);
             }
 
-            final Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("mealPlan", planOpt.get());
+            final Optional<WeeklyMealPlan> weeklyPlanOpt =
+                    weeklyMealPlanRepository.findById(planId);
+            if (weeklyPlanOpt.isPresent()) {
+                final Map<String, Object> response = new HashMap<>();
+                response.put("success", true);
+                response.put("planType", "weekly");
+                response.put("mealPlan", weeklyPlanOpt.get());
+
+                LOGGER.info("[API_RESPONSE] timestamp={}, "
+                        + "endpoint=GET /api/meal-plans/{}, status=200 (weekly)",
+                        LocalDateTime.now(), planId);
+
+                return ResponseEntity.ok(response);
+            }
 
             LOGGER.info("[API_RESPONSE] timestamp={}, "
-                    + "endpoint=GET /api/meal-plans/{}, "
-                    + "status=200",
+                    + "endpoint=GET /api/meal-plans/{}, status=404",
                     LocalDateTime.now(), planId);
 
-            return ResponseEntity.ok(response);
+            final Map<String, Object> errorResponse =
+                    new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "Meal plan not found");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(errorResponse);
 
         } catch (final Exception e) {
             LOGGER.error("[API_ERROR] timestamp={}, "

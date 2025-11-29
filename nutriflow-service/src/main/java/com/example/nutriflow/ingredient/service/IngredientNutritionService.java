@@ -90,12 +90,11 @@ public class IngredientNutritionService {
 
     /**
      * Create or update ingredient nutrition data.
+     * If an ingredient with the same name already exists, it will be updated instead of creating a duplicate.
      *
      * @param ingredient the ingredient to save
      * @param updatedBy  the user/system making the update
      * @return saved ingredient
-     * @throws IllegalArgumentException if ingredient name already exists
-     *                                 when creating new ingredient
      */
     @Transactional
     public IngredientNutrition saveIngredient(
@@ -104,27 +103,79 @@ public class IngredientNutritionService {
         final LocalDateTime now = LocalDateTime.now();
 
         if (ingredient.getIngredientId() == null) {
-            // New ingredient - check for duplicate name
+            // Check if ingredient with same name already exists
             final Optional<IngredientNutrition> existingOpt =
                     getIngredientByName(ingredient.getIngredientName());
+            
             if (existingOpt.isPresent()) {
-                final String errorMsg = String.format(
-                        "Ingredient with name '%s' already exists (ID: %d). "
-                        + "Use PUT /api/ingredients/{id} to update instead.",
-                        ingredient.getIngredientName(),
-                        existingOpt.get().getIngredientId());
-                LOGGER.warn("Attempted to create duplicate ingredient: {}",
-                        ingredient.getIngredientName());
-                throw new IllegalArgumentException(errorMsg);
+                // Update existing ingredient instead of creating duplicate
+                final IngredientNutrition existing = existingOpt.get();
+                LOGGER.info("Ingredient '{}' already exists (ID: {}). Updating instead of creating new.",
+                        ingredient.getIngredientName(), existing.getIngredientId());
+                
+                // Copy new values to existing ingredient
+                if (ingredient.getIngredientCategory() != null) {
+                    existing.setIngredientCategory(ingredient.getIngredientCategory());
+                }
+                if (ingredient.getCalories() != null) {
+                    existing.setCalories(ingredient.getCalories());
+                }
+                if (ingredient.getProtein() != null) {
+                    existing.setProtein(ingredient.getProtein());
+                }
+                if (ingredient.getCarbohydrates() != null) {
+                    existing.setCarbohydrates(ingredient.getCarbohydrates());
+                }
+                if (ingredient.getFat() != null) {
+                    existing.setFat(ingredient.getFat());
+                }
+                if (ingredient.getFiber() != null) {
+                    existing.setFiber(ingredient.getFiber());
+                }
+                if (ingredient.getIron() != null) {
+                    existing.setIron(ingredient.getIron());
+                }
+                if (ingredient.getCalcium() != null) {
+                    existing.setCalcium(ingredient.getCalcium());
+                }
+                if (ingredient.getVitaminA() != null) {
+                    existing.setVitaminA(ingredient.getVitaminA());
+                }
+                if (ingredient.getVitaminC() != null) {
+                    existing.setVitaminC(ingredient.getVitaminC());
+                }
+                if (ingredient.getVitaminD() != null) {
+                    existing.setVitaminD(ingredient.getVitaminD());
+                }
+                if (ingredient.getSodium() != null) {
+                    existing.setSodium(ingredient.getSodium());
+                }
+                if (ingredient.getPotassium() != null) {
+                    existing.setPotassium(ingredient.getPotassium());
+                }
+                if (ingredient.getDescription() != null) {
+                    existing.setDescription(ingredient.getDescription());
+                }
+                if (ingredient.getSource() != null) {
+                    existing.setSource(ingredient.getSource());
+                }
+                if (ingredient.getUnit() != null) {
+                    existing.setUnit(ingredient.getUnit());
+                }
+                
+                existing.setUpdatedAt(now);
+                existing.setUpdatedBy(updatedBy);
+                
+                return ingredientNutritionRepository.save(existing);
             }
+            
+            // New ingredient - set creation fields
             ingredient.setCreatedAt(now);
             ingredient.setCreatedBy(updatedBy);
-            LOGGER.info("Creating new ingredient: {}",
-                    ingredient.getIngredientName());
+            LOGGER.info("Creating new ingredient: {}", ingredient.getIngredientName());
         } else {
             // Update existing ingredient
-            LOGGER.info("Updating ingredient ID: {}",
-                    ingredient.getIngredientId());
+            LOGGER.info("Updating ingredient ID: {}", ingredient.getIngredientId());
         }
 
         ingredient.setUpdatedAt(now);

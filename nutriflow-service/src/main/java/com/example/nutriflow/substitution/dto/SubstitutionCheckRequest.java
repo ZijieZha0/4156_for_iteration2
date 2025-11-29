@@ -21,4 +21,13 @@ public class SubstitutionCheckRequest {
 
     /** ID of the user whose allergies are applied. */
     private Integer userId;
+
+    /** Ingredient to check for substitutions (optional). */
+    private String originalIngredient;
+
+    /** Allergens to avoid when suggesting substitutes. */
+    private String[] allergens;
+
+    /** Disliked ingredients to avoid. */
+    private String[] dislikes;
 }

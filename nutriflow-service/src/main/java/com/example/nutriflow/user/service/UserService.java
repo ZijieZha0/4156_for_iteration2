@@ -3,6 +3,7 @@ package com.example.nutriflow.user.service;
 import com.example.nutriflow.user.model.User;
 import com.example.nutriflow.user.dto.UpdateUserRequestDTO;
 import com.example.nutriflow.user.repository.UserRepository;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,20 @@ public class UserService {
      */
     @Autowired
     private UserRepository userRepository;
+
+    /**
+     * Create a new user.
+     * Note: Works correctly with stringtype=unspecified in datasource URL.
+     *
+     * @param user the user object to create
+     * @return the created user with generated ID
+     */
+    @Transactional
+    public User createUser(final User user) {
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(user);
+    }
 
     /**
      * Find a user by their user ID.
@@ -66,6 +81,22 @@ public class UserService {
 
                     return userRepository.save(existingUser);
                 });
+    }
+
+    /**
+     * Delete a user by their user ID.
+     *
+     * @param userId the ID of the user to delete
+     * @return true if user was deleted, false if user not found
+     */
+    @Transactional
+    public boolean deleteUser(final Integer userId) {
+        return userRepository.findUserById(userId)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return true;
+                })
+                .orElse(false);
     }
 
     /**

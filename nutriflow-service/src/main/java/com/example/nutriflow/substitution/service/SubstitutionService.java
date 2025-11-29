@@ -1,5 +1,6 @@
 package com.example.nutriflow.substitution.service;
 
+import com.example.nutriflow.substitution.dto.IngredientSubstitutionResponse;
 import com.example.nutriflow.recipe.model.RecipeIngredient;
 import com.example.nutriflow.substitution.model.SubstitutionRule;
 import com.example.nutriflow.user.model.User;
@@ -154,6 +155,56 @@ public class SubstitutionService {
                 .note(r.getNote())
                 .build())
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Checks substitutions for a single ingredient using provided allergens
+     * and dislikes.
+     *
+     * @param ingredient ingredient that needs a substitute
+     * @param allergens array of allergens to avoid
+     * @param dislikes array of disliked ingredients
+     * @return response containing substitution suggestions
+     */
+    public IngredientSubstitutionResponse checkIngredientForAllergens(
+            final String ingredient,
+            final String[] allergens,
+            final String[] dislikes) {
+
+        final List<String> allergenList = Optional.ofNullable(allergens)
+            .map(Arrays::asList)
+            .orElseGet(Collections::emptyList);
+        final List<String> dislikeList = Optional.ofNullable(dislikes)
+            .map(Arrays::asList)
+            .orElseGet(Collections::emptyList);
+
+        final List<SubstitutionSuggestionDto> suggestions =
+            substitutionRuleRepository.findByIngredientIgnoreCase(ingredient)
+                .stream()
+                .filter(rule -> !shouldAvoid(rule.getAvoid(),
+                        allergenList, dislikeList))
+                .map(rule -> SubstitutionSuggestionDto.builder()
+                    .ingredient(ingredient)
+                    .alt(rule.getSubstitute())
+                    .note(rule.getNote())
+                    .build())
+                .collect(Collectors.toList());
+
+        return IngredientSubstitutionResponse.builder()
+            .originalIngredient(ingredient)
+            .allergens(allergenList)
+            .dislikes(dislikeList)
+            .suggestions(suggestions)
+            .build();
+    }
+
+    private boolean shouldAvoid(final String avoid,
+            final List<String> allergens, final List<String> dislikes) {
+        if (avoid == null || avoid.isBlank()) {
+            return false;
+        }
+        return containsIgnoreCase(allergens, avoid)
+            || containsIgnoreCase(dislikes, avoid);
     }
 
     /**

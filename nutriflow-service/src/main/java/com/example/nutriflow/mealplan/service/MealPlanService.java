@@ -352,42 +352,66 @@ public class MealPlanService {
      */
     private List<Recipe> getEligibleRecipes(final User user,
             final MealPlanRequestDto request) {
-        List<Recipe> recipes = recipeRepository.findAll();
+        final List<Recipe> allRecipes = recipeRepository.findAll();
+        List<Recipe> recipes = new ArrayList<>(allRecipes);
 
         // Filter by max prep time
         if (request.getMaxPrepTime() != null) {
-            recipes = recipes.stream()
+            final List<Recipe> filtered = recipes.stream()
                     .filter(r -> r.getCookTime() != null
                             && r.getCookTime() <= request.getMaxPrepTime())
                     .collect(Collectors.toList());
+            if (!filtered.isEmpty()) {
+                recipes = filtered;
+            } else {
+                LOGGER.warn("No recipes found under max prep time {}. "
+                        + "Falling back to full list.",
+                        request.getMaxPrepTime());
+            }
         }
 
         // Filter by tags
         if (request.getTags() != null
                 && !request.getTags().isEmpty()) {
-            recipes = recipes.stream()
+            final List<Recipe> filtered = recipes.stream()
                     .filter(r -> r.getTags() != null
                             && Arrays.stream(r.getTags())
                             .anyMatch(tag ->
                                     request.getTags().contains(tag)))
                     .collect(Collectors.toList());
+            if (!filtered.isEmpty()) {
+                recipes = filtered;
+            } else {
+                LOGGER.warn("No recipes found for tags {}. "
+                        + "Falling back to previous selection.",
+                        request.getTags());
+            }
         }
 
         // Filter by cuisines
         if (request.getPreferredCuisines() != null
                 && !request.getPreferredCuisines().isEmpty()) {
-            recipes = recipes.stream()
+            final List<Recipe> filtered = recipes.stream()
                     .filter(r -> r.getCuisines() != null
                             && Arrays.stream(r.getCuisines())
                             .anyMatch(cuisine ->
                                     request.getPreferredCuisines()
                                             .contains(cuisine)))
                     .collect(Collectors.toList());
+            if (!filtered.isEmpty()) {
+                recipes = filtered;
+            } else {
+                LOGGER.warn("No recipes found for cuisines {}. "
+                        + "Falling back to previous selection.",
+                        request.getPreferredCuisines());
+            }
         }
 
-        // NOTE: Allergen filtering requires
-        // SubstitutionService integration.
-        // This is planned for future enhancement.
+        if (recipes.isEmpty()) {
+            LOGGER.warn("All filters removed available recipes. "
+                    + "Using complete list of recipes.");
+            recipes = allRecipes;
+        }
 
         return recipes;
     }

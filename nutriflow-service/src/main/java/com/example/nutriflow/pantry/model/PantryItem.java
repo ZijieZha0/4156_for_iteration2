@@ -39,7 +39,7 @@ public final class PantryItem {
 
     /** Name of the pantry item (e.g., "Rice", "Olive Oil"). */
     @Column(name = "name", nullable = false)
-    private String name;
+    private String ingredientName;
 
     /** Quantity of the pantry item available. */
     @Column(name = "quantity", precision =
