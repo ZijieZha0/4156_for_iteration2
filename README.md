@@ -36,6 +36,11 @@ mvn clean compile
 ```shell
 ./start.sh
 ```
+`start.sh` will automatically:
+1. Kill any process using port `8080`
+2. Verify Java 17 is active (and warn if not)
+3. Verify PostgreSQL `nutriflow` database is reachable
+4. Start the Spring Boot app with the `local` profile
 
 **For Local Development** (uses local PostgreSQL):
 ```shell
@@ -153,9 +158,11 @@ Modules:
     - `getPopularRecipes(int limit)` (custom size)
     - `getUserFavoriteRecipes(Integer userId)`
 - Controller: RecipeController
-    - GET `/api/recipes/{id}` → retrieve recipe by ID
-    - GET `/api/recipes/popular?limit={n}` → retrieve top N recipes
-    - GET `/api/recipes/{userId}/favorites` → placeholder for favorite recipes
+    - `GET /api/recipes` → list all recipes (handy for discovering recipe IDs)
+    - `GET /api/recipes/{id}` → retrieve recipe by ID
+    - `GET /api/recipes/popular?limit={n}` → retrieve top N recipes
+    - `GET /api/recipes/search?ingredient={keyword}` → search by ingredient keyword
+    - `GET /api/recipes/favorites/{userId}` / `POST` / `DELETE` → manage favorites
 
 ### Pantry Management
 
@@ -171,8 +178,10 @@ Modules:
     - `getPantryItems(Integer userId)`
     - `updatePantryItems(Integer userId, List<PantryItem> items)` replaces user’s pantry with the new list
 - Controller: PantryController
-    - `GET /api/users/{userId}/pantry` get all pantry items for user
-    - `PUT /api/users/{userId}/pantry` replace all pantry items
+    - `GET /api/pantry/user/{userId}` → list a user’s pantry items
+    - `POST /api/pantry` → add a pantry item (auto-handles `ingredientName`, quantity, etc.)
+    - `PUT /api/pantry/user/{userId}` → replace all pantry items
+    - `DELETE /api/pantry/{itemId}` → remove a pantry item
 
 ### Favorites Management
 Purpose: Allow users to mark recipes as favorites and track how often they use them.
@@ -223,8 +232,11 @@ Modules:
     - `checkRecipeForUser(Integer recipeId, Integer userId)` checks for allergen conflicts in a recipe and returns substitution suggestions
     - `findSubstitute(String ingredient, String avoid)` retrieves alternative ingredients based on avoidance type
 - Controller: SubstitutionController
-    - `POST /substitutions/check` checks if a recipe contains ingredients a user should avoid
-    - `GET /substitutions?ingredient={name}&avoid={category}` retrieves substitution suggestions for a given ingredient
+    - `POST /api/substitutions/check`
+        - Supports **recipe-based** checks (`recipeId`, `userId`)
+        - Supports **ingredient-only** checks (`originalIngredient`, `allergens`, `dislikes`)
+    - `GET /api/substitutions?ingredient={name}&avoid={category}` retrieves filtered suggestions
+    - NEW: `GET /api/substitutions/suggestions/{ingredient}` quick suggestions without query params
 
 ### Meal Plan Generation
 
@@ -240,11 +252,13 @@ Modules:
     - `getDailyMealPlans(Integer userId, LocalDate startDate, LocalDate endDate)` → retrieves saved plans
     - `getAlternativeMeal(MealPlanAlternativeRequestDto request)` → suggests alternative meals
 - Controller: MealPlanController
-    - `POST /api/meal-plans/generate` → generate a new meal plan
-    - `GET /api/meal-plans/user/{userId}` → retrieve user's meal plans
-    - `GET /api/meal-plans/alternative` → get alternative meal suggestions
-    - `PUT /api/meal-plans/{planId}` → update existing plan
-    - `DELETE /api/meal-plans/{planId}` → delete a plan
+    - `POST /api/meal-plans/generate` → generate daily or weekly meal plans (filters now gracefully fall back if too strict)
+    - `GET /api/meal-plans/{planId}` → fetch **daily or weekly** plan by ID (response indicates `planType`)
+    - `GET /api/meal-plans/user/{userId}` → retrieve user's saved plans
+    - `POST /api/meal-plans/alternative` → request alternative meal
+    - `PUT /api/meal-plans/{planId}/status` / `DELETE /api/meal-plans/{planId}` → manage plan lifecycle
+
+> Tip: when generating meal plans with `preferredCuisines` or `tags`, the service now automatically falls back to the closest matches to ensure non-zero meals.
 
 ### Ingredient Nutrition Database
 
@@ -311,6 +325,24 @@ Comprehensive Postman collections are available in the `/postman` directory for 
 4. Update the `{{baseUrl}}` variable to `http://localhost:8080` for local testing
 
 See `/postman/README.md` for detailed instructions.
+
+## Static Analysis
+
+Use the helper script to run the static check suite:
+```shell
+./run_check.sh
+```
+This script:
+1. Forces Java 17 via `JAVA_HOME`
+2. Runs `mvn clean compile`
+3. Runs Checkstyle (`mvn checkstyle:check`)
+4. Runs PMD (`mvn pmd:pmd`)
+
+You can also invoke the Maven goals manually from `nutriflow-service/`:
+```shell
+mvn checkstyle:check
+mvn pmd:pmd
+```
 
 ## Test Coverage
 ```shell
