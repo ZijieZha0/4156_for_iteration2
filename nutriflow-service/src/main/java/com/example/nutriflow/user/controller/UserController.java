@@ -50,7 +50,8 @@ public class UserController {
 
     /**
      * POST endpoint to create a new user.
-     * Note: With stringtype=unspecified in datasource URL, enum types work correctly.
+     * Note: With stringtype=unspecified in datasource URL,
+     * enum types work correctly.
      *
      * @param user the user object containing user information
      * @return ResponseEntity containing the created user with HTTP 201

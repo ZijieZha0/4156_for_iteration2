@@ -311,7 +311,8 @@ public class MealPlanController {
                 response.put("mealPlan", dailyPlanOpt.get());
 
                 LOGGER.info("[API_RESPONSE] timestamp={}, "
-                        + "endpoint=GET /api/meal-plans/{}, status=200 (daily)",
+                        + "endpoint=GET /api/meal-plans/{}, "
+                        + "status=200 (daily)",
                         LocalDateTime.now(), planId);
 
                 return ResponseEntity.ok(response);
@@ -326,7 +327,8 @@ public class MealPlanController {
                 response.put("mealPlan", weeklyPlanOpt.get());
 
                 LOGGER.info("[API_RESPONSE] timestamp={}, "
-                        + "endpoint=GET /api/meal-plans/{}, status=200 (weekly)",
+                        + "endpoint=GET /api/meal-plans/{}, "
+                        + "status=200 (weekly)",
                         LocalDateTime.now(), planId);
 
                 return ResponseEntity.ok(response);

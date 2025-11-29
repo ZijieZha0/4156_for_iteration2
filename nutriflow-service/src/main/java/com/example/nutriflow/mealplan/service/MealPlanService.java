@@ -273,11 +273,13 @@ public class MealPlanService {
         if (existingPlanOpt.isPresent()) {
             // Update existing plan - delete old meals first
             dailyPlan = existingPlanOpt.get();
-            LOGGER.info("Updating existing meal plan ID: {} for user {} on {}",
+            LOGGER.info("Updating existing meal plan ID: {} "
+                    + "for user {} on {}",
                     dailyPlan.getPlanId(), user.getUserId(), date);
-            
+
             // Delete old meals associated with this plan
-            if (dailyPlan.getMealIds() != null && dailyPlan.getMealIds().length > 0) {
+            if (dailyPlan.getMealIds() != null
+                    && dailyPlan.getMealIds().length > 0) {
                 final List<Integer> oldMealIds =
                         Arrays.asList(dailyPlan.getMealIds());
                 mealRepository.deleteAllById(oldMealIds);

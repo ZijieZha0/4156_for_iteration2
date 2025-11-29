@@ -126,10 +126,10 @@ public class RecipeController {
     */
     @GetMapping("/favorites/{userId}")
     public ResponseEntity<List<Recipe>> getUserFavorites(
-        final @PathVariable Integer userId) {
+            final @PathVariable Integer userId) {
 
-    return ResponseEntity.ok(
-        recipeService.getUserFavoriteRecipes(userId));
+        return ResponseEntity.ok(
+                recipeService.getUserFavoriteRecipes(userId));
     }
 
     /**
@@ -145,28 +145,31 @@ public class RecipeController {
         try {
             final Integer userId = request.get("userId");
             final Integer recipeId = request.get("recipeId");
-            
+
             if (userId == null || recipeId == null) {
                 return ResponseEntity.badRequest()
-                    .body(Map.of("error", "userId and recipeId are required"));
+                        .body(Map.of(
+                                "error",
+                                "userId and recipeId are required"));
             }
 
             final FavoriteRecipe fav =
-                recipeService.addFavorite(userId, recipeId);
+                    recipeService.addFavorite(userId, recipeId);
             return ResponseEntity.ok(fav);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 
     /**
-    * POST endpoint to add a recipe to a user's favorites (with path parameters).
-    *
-    * @param userId   the user ID
-    * @param recipeId the recipe ID
-    * @return 200 OK with FavoriteRecipe, or 400 if already exists
-    */
+     * POST endpoint to add a recipe to a user's favorites
+     * (with path parameters).
+     *
+     * @param userId   the user ID
+     * @param recipeId the recipe ID
+     * @return 200 OK with FavoriteRecipe, or 400 if already exists
+     */
     @PostMapping("/favorites/{userId}/{recipeId}")
     public ResponseEntity<?> addFavorite(
             final @PathVariable Integer userId,
@@ -174,11 +177,11 @@ public class RecipeController {
 
         try {
             final FavoriteRecipe fav =
-                recipeService.addFavorite(userId, recipeId);
+                    recipeService.addFavorite(userId, recipeId);
             return ResponseEntity.ok(fav);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -196,7 +199,7 @@ public class RecipeController {
 
         recipeService.removeFavorite(userId, recipeId);
         return ResponseEntity.ok(
-            Map.of("message",
-                    "Favorite removed successfully"));
+                Map.of("message",
+                        "Favorite removed successfully"));
     }
 }

@@ -94,7 +94,8 @@ public final class SubstitutionController {
     public ResponseEntity<List<SubstitutionSuggestionDto>> suggestions(
             @PathVariable final String ingredient) {
         final List<SubstitutionSuggestionDto> out =
-                substitutionService.findSubstitutions(ingredient, Optional.empty());
+                substitutionService.findSubstitutions(
+                        ingredient, Optional.empty());
         return ResponseEntity.ok(out);
     }
 }

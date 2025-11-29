@@ -90,7 +90,8 @@ public class IngredientNutritionService {
 
     /**
      * Create or update ingredient nutrition data.
-     * If an ingredient with the same name already exists, it will be updated instead of creating a duplicate.
+     * If an ingredient with the same name already exists,
+     * it will be updated instead of creating a duplicate.
      *
      * @param ingredient the ingredient to save
      * @param updatedBy  the user/system making the update
@@ -106,16 +107,20 @@ public class IngredientNutritionService {
             // Check if ingredient with same name already exists
             final Optional<IngredientNutrition> existingOpt =
                     getIngredientByName(ingredient.getIngredientName());
-            
+
             if (existingOpt.isPresent()) {
                 // Update existing ingredient instead of creating duplicate
                 final IngredientNutrition existing = existingOpt.get();
-                LOGGER.info("Ingredient '{}' already exists (ID: {}). Updating instead of creating new.",
-                        ingredient.getIngredientName(), existing.getIngredientId());
-                
+                LOGGER.info(
+                        "Ingredient '{}' already exists (ID: {}). "
+                                + "Updating instead of creating new.",
+                        ingredient.getIngredientName(),
+                        existing.getIngredientId());
+
                 // Copy new values to existing ingredient
                 if (ingredient.getIngredientCategory() != null) {
-                    existing.setIngredientCategory(ingredient.getIngredientCategory());
+                    existing.setIngredientCategory(
+                            ingredient.getIngredientCategory());
                 }
                 if (ingredient.getCalories() != null) {
                     existing.setCalories(ingredient.getCalories());
@@ -162,20 +167,22 @@ public class IngredientNutritionService {
                 if (ingredient.getUnit() != null) {
                     existing.setUnit(ingredient.getUnit());
                 }
-                
+
                 existing.setUpdatedAt(now);
                 existing.setUpdatedBy(updatedBy);
-                
+
                 return ingredientNutritionRepository.save(existing);
             }
-            
+
             // New ingredient - set creation fields
             ingredient.setCreatedAt(now);
             ingredient.setCreatedBy(updatedBy);
-            LOGGER.info("Creating new ingredient: {}", ingredient.getIngredientName());
+            LOGGER.info("Creating new ingredient: {}",
+                    ingredient.getIngredientName());
         } else {
             // Update existing ingredient
-            LOGGER.info("Updating ingredient ID: {}", ingredient.getIngredientId());
+            LOGGER.info("Updating ingredient ID: {}",
+                    ingredient.getIngredientId());
         }
 
         ingredient.setUpdatedAt(now);
