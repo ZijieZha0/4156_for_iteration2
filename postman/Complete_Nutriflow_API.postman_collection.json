@@ -21,16 +21,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Test User\",\n  \"height\": 175.0,\n  \"weight\": 75.0,\n  \"age\": 28,\n  \"sex\": \"MALE\",\n  \"allergies\": [\"peanuts\"],\n  \"dislikes\": [\"mushrooms\"],\n  \"budget\": 500.00,\n  \"cookingSkillLevel\": \"INTERMEDIATE\"\n}"
+							"raw": "{\n  \"name\": \"Test User\",\n  \"height\": 175.0,\n  \"weight\": 75.0,\n  \"age\": 28,\n  \"sex\": \"MALE\",\n  \"allergies\": [\"peanuts\"],\n  \"dislikes\": [\"mushrooms\"],\n  \"budget\": 500.00,\n  \"cookingSkillLevel\": \"INTERMEDIATE\",\n  \"equipments\": [\"oven\", \"blender\"]\n}"
 						},
 						"url": {
-							"raw": "http://{{baseUrl}}/api/user",
+							"raw": "http://{{baseUrl}}/api/users",
 							"host": [
 								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"user"
+								"users"
 							]
 						}
 					}
@@ -41,13 +41,40 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{baseUrl}}/api/user/{{userId}}",
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}",
 							"host": [
 								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"user",
+								"users",
+								"{{userId}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated User\",\n  \"height\": 176.0,\n  \"weight\": 73.5,\n  \"age\": 29,\n  \"allergies\": [\"peanuts\", \"shellfish\"],\n  \"budget\": 600.00\n}"
+						},
+						"url": {
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}",
+							"host": [
+								"http://{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
 								"{{userId}}"
 							]
 						}
@@ -68,15 +95,34 @@
 							"raw": "{\n  \"calories\": 2200.0,\n  \"protein\": 180.0,\n  \"carbs\": 220.0,\n  \"fat\": 70.0,\n  \"fiber\": 30.0\n}"
 						},
 						"url": {
-							"raw": "http://{{baseUrl}}/api/user/{{userId}}/target",
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}/targets",
 							"host": [
 								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"user",
+								"users",
 								"{{userId}}",
-								"target"
+								"targets"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Nutritional Targets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}/targets",
+							"host": [
+								"http://{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}",
+								"targets"
 							]
 						}
 					}
@@ -87,15 +133,33 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{baseUrl}}/api/user/{{userId}}/health-stats",
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}/health_statistics",
 							"host": [
 								"http://{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"user",
+								"users",
 								"{{userId}}",
-								"health-stats"
+								"health_statistics"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{baseUrl}}/api/users/{{userId}}",
+							"host": [
+								"http://{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
 							]
 						}
 					}
@@ -496,7 +560,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"userId\": {{userId}},\n  \"ingredientName\": \"chicken breast\",\n  \"quantity\": 500,\n  \"unit\": \"g\",\n  \"expirationDate\": \"2025-12-15\"\n}"
+							"raw": "{\n  \"userId\": {{userId}},\n  \"ingredientName\": \"chicken breast\",\n  \"quantity\": 500,\n  \"unit\": \"g\"\n}"
 						},
 						"url": {
 							"raw": "http://{{baseUrl}}/api/pantry",
